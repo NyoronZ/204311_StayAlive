@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'loading_screen.dart';
+import 'screens/splash/splash_screen.dart';
 
 void main() {
   runApp(const StayAliveApp());
