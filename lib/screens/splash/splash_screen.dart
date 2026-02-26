@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../home/home_screen.dart';
+import '../tutorial/tutorial.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -15,9 +16,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
     // Simulate a loading delay of 3 seconds
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      Navigator.pushReplacementNamed(context, '/tutorial');
     });
   }
 
