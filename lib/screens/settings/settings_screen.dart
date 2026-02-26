@@ -12,63 +12,62 @@ class SettingsScreen extends StatelessWidget {
     const primaryColor = Color(0xFF10B981); 
     const sectionTitleStyle = TextStyle(
       color: Colors.grey,
-      fontSize: 16,
+      fontSize: 16, 
       fontWeight: FontWeight.w500,
     );
 
     return Scaffold(
       backgroundColor: Colors.white,
-      // CustomAppBar 
-      appBar: const CustomAppBar(title: "Settings"),
+      // use CustomAppBar with translated title from LanguageProvider
+      appBar: CustomAppBar(title: lang.translate('settings', 'title')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // --- Section: USER ---
-            const Text("user", style: sectionTitleStyle),
-            const SizedBox(height: 10),
+            Text(lang.translate('settings', 'user_sec'), style: sectionTitleStyle),
+            const SizedBox(height: 5),
             _buildSettingItem(
-              title: "Notifications", 
+              title: lang.translate('settings', 'notifications'), 
               onTap: () => debugPrint("Navigate to Notifications"),
             ),
             _buildSettingItem(
-              title: "Configuration", 
+              title: lang.translate('settings', 'config'), 
               onTap: () => debugPrint("Navigate to Configuration"),
             ),
             _buildSettingItem(
-              title: "Privacy", 
+              title: lang.translate('settings', 'privacy'), 
               onTap: () => debugPrint("Navigate to Privacy"),
             ),
-            // LanguageProvider
             _buildSettingItem(
-              title: "Language", 
+              title: lang.translate('settings', 'language'), 
               subtitle: lang.currentLocale.languageCode == 'en' ? 'English' : 'ไทย',
               onTap: () => _showLanguagePicker(context, lang),
             ),
             
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
             const Divider(thickness: 1, color: Color(0xFFE0E0E0)),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
 
-            // --- Section: SUPPORTING (Other items) ---
-            const Text("supporting", style: sectionTitleStyle),
-            const SizedBox(height: 10),
+            // --- Section: SUPPORTING ---
+            Text(lang.translate('settings', 'support_sec'), style: sectionTitleStyle),
+            const SizedBox(height: 5),
             _buildSettingItem(
-              title: "Help", 
+              title: lang.translate('settings', 'help'), 
               onTap: () => debugPrint("Navigate to Help"),
             ),
             _buildSettingItem(
-              title: "Feedback", 
+              title: lang.translate('settings', 'feedback'), 
               onTap: () => debugPrint("Navigate to Feedback"),
             ),
 
             const SizedBox(height: 40),
 
             // --- Footer Links ---
-            _buildFooterLink("Terms and Conditions of Service", primaryColor, onTap: () {}),
-            _buildFooterLink("Privacy Policy", primaryColor, onTap: () {}),
-            _buildFooterLink("Medical References", primaryColor, onTap: () {}),
+            _buildFooterLink(lang.translate('settings', 'terms'), primaryColor, onTap: () {}),
+            _buildFooterLink(lang.translate('settings', 'privacy_pol'), primaryColor, onTap: () {}),
+            _buildFooterLink(lang.translate('settings', 'medical_ref'), primaryColor, onTap: () {}),
             
             const SizedBox(height: 20),
           ],
@@ -77,35 +76,35 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  // Menu Widget
+  // adjust row less gap by visualDensity and contentPadding
   Widget _buildSettingItem({
     required String title, 
     String? subtitle, 
     required VoidCallback onTap
   }) {
     return ListTile(
+      visualDensity: const VisualDensity(horizontal: 0, vertical: -2),
       contentPadding: EdgeInsets.zero,
       title: Text(
         title,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       ),
-      subtitle: subtitle != null ? Text(subtitle, style: const TextStyle(color: Color(0xFF10B981))) : null,
-      trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 20),
+      subtitle: subtitle != null ? Text(subtitle, style: const TextStyle(color: Color(0xFF10B981), fontSize: 14)) : null,
+      trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
       onTap: onTap,
     );
   }
 
-  // green Widget
   Widget _buildFooterLink(String text, Color color, {required VoidCallback onTap}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: GestureDetector(
         onTap: onTap,
         child: Text(
           text,
           style: TextStyle(
             color: color,
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -113,7 +112,6 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  // modal bottom sheet
   void _showLanguagePicker(BuildContext context, LanguageProvider lang) {
     showModalBottomSheet(
       context: context,
@@ -124,31 +122,57 @@ class SettingsScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text("Select Language", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                lang.translate('settings', 'select_lang'), 
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+              ),
             ),
-            ListTile(
-              leading: const Icon(Icons.language, color: Color(0xFF10B981)),
-              title: const Text("ไทย"),
-              trailing: lang.currentLocale.languageCode == 'th' ? const Icon(Icons.check, color: Color(0xFF10B981)) : null,
-              onTap: () {
-                lang.changeLanguage('th');
-                Navigator.pop(context);
-              },
+            _buildLanguageOption(
+              context, 
+              lang, 
+              label: "ไทย", 
+              code: 'th', 
+              icon: Icons.language
             ),
-            ListTile(
-              leading: const Icon(Icons.language, color: Color(0xFF10B981)),
-              title: const Text("English"),
-              trailing: lang.currentLocale.languageCode == 'en' ? const Icon(Icons.check, color: Color(0xFF10B981)) : null,
-              onTap: () {
-                lang.changeLanguage('en');
-                Navigator.pop(context);
-              },
+            _buildLanguageOption(
+              context, 
+              lang, 
+              label: "English", 
+              code: 'en', 
+              icon: Icons.language
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
+    );
+  }
+
+  // adjust icon and text gap by horizontalTitleGap
+  Widget _buildLanguageOption(BuildContext context, LanguageProvider lang, {required String label, required String code, required IconData icon}) {
+    final isSelected = lang.currentLocale.languageCode == code;
+    const primaryColor = Color(0xFF10B981);
+
+    return ListTile(
+      onTap: () {
+        lang.changeLanguage(code);
+        Navigator.pop(context);
+      },
+      leading: Icon(icon, color: primaryColor),
+      horizontalTitleGap: 10, 
+      title: Text(
+        label,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          color: isSelected ? primaryColor : Colors.black,
+        ),
+      ),
+      trailing: isSelected 
+          ? const Icon(Icons.check, color: primaryColor) 
+          : null,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 25),
     );
   }
 }

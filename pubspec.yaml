@@ -23,8 +23,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
-  # assets:
-  #   - assets/images/logo.png
+  assets:
+    - assets/images/stayalive_logo.png
   #   - assets/images/heartbeat.png
 
   # fonts:
