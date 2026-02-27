@@ -32,9 +32,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     if (!mounted) return;
 
     // 3. โหลดเสร็จทั้งหมด ค่อยไปหน้า HomeScreen
-    Navigator.pushReplacement(
+    Navigator.pushReplacementNamed(
       context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      '/tutorial',
+      // MaterialPageRoute(builder: (context) => const HomeScreen()),
     );
   }
 
