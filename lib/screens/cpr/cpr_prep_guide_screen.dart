@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/language_provider.dart';
 import '../../components/shadow_card.dart';
 import 'cpr_timer_screen.dart'; // เตรียมไว้สำหรับหน้าถัดไป
+import 'package:url_launcher/url_launcher.dart';
 
 class CprPrepGuideScreen extends StatefulWidget {
   final String ageGroup;
@@ -19,40 +22,50 @@ class CprPrepGuideScreen extends StatefulWidget {
 class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
   final Color primaryGreen = const Color(0xFF10B981);
 
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri.parse("tel:$phoneNumber");
+    try {
+      if (!await launchUrl(launchUri)) {
+        throw Exception('Could not launch $launchUri');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     if (widget.callEmergency) {
-      // TODO: ใส่ฟังก์ชันโทรฉุกเฉินอัตโนมัติเบื้องหลังตรงนี้
-      debugPrint("Calling Emergency...");
+      _makePhoneCall('0841179098');
     }
   }
 
   // กำหนดเนื้อหาตามช่วงอายุ
-  Map<String, dynamic> _getAgeData(String age) {
+  Map<String, dynamic> _getAgeData(LanguageProvider lang, String age) {
     switch (age) {
       case 'Infant':
         return {
           'emoji': '👶',
           'color': const Color(0xFFBFF6C3),
-          'title': 'Rescue Breaths',
-          'subtitle': 'Give 2 small breaths, when heard a signal',
+          'title': lang.translate('cpr', 'rescue_breaths'),
+          'subtitle': lang.translate('cpr', 'prep_infant_sub'),
           'checks': [
-            'Place 2 fingers just below nipple line',
-            'Use 1 or 2 hands depending on child size',
-            'Compress at least 1.5 inches or 3 centimeters deep',
+            lang.translate('cpr', 'prep_infant_ch1'),
+            lang.translate('cpr', 'prep_infant_ch2'),
+            lang.translate('cpr', 'prep_infant_ch3'),
           ],
         };
       case 'Child':
         return {
           'emoji': '👦',
           'color': const Color(0xFFC4E4FF),
-          'title': 'Rescue Breaths',
-          'subtitle': 'Give 2 breaths, when heard a signal',
+          'title': lang.translate('cpr', 'rescue_breaths'),
+          'subtitle': lang.translate('cpr', 'prep_child_sub'),
           'checks': [
-            'Place heel of 1 or 2 hands on center of chest',
-            'Compress about 2 inches or 5 centimeters deep',
-            'Push hard and fast',
+            lang.translate('cpr', 'prep_child_ch1'),
+            lang.translate('cpr', 'prep_child_ch2'),
+            lang.translate('cpr', 'prep_child_ch3'),
           ],
         };
       case 'Adult':
@@ -60,12 +73,12 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
         return {
           'emoji': '👨',
           'color': const Color(0xFFFFE4C4),
-          'title': 'Rescue Breaths',
-          'subtitle': 'Give 2 breaths, when heard a signal',
+          'title': lang.translate('cpr', 'rescue_breaths'),
+          'subtitle': lang.translate('cpr', 'prep_adult_sub'),
           'checks': [
-            'Place heel of 2 hands on center of chest',
-            'Compress at least 2 inches or 5 centimeters deep',
-            'Push hard and fast',
+            lang.translate('cpr', 'prep_adult_ch1'),
+            lang.translate('cpr', 'prep_adult_ch2'),
+            lang.translate('cpr', 'prep_adult_ch3'),
           ],
         };
     }
@@ -73,8 +86,9 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     double textScaleRatio = MediaQuery.of(context).size.width / 375.0;
-    final ageData = _getAgeData(widget.ageGroup);
+    final ageData = _getAgeData(lang, widget.ageGroup);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,9 +131,9 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                             color: primaryGreen, size: 24),
                       ),
                       const SizedBox(width: 15),
-                      const Text(
-                        "Remember",
-                        style: TextStyle(
+                      Text(
+                        lang.translate('cpr', 'remember'),
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 22,
                             fontWeight: FontWeight.bold),
@@ -232,15 +246,15 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                                     offset: const Offset(0, 5)),
                               ],
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.play_arrow,
+                                const Icon(Icons.play_arrow,
                                     color: Colors.white, size: 28),
-                                SizedBox(width: 8),
+                                const SizedBox(width: 8),
                                 Text(
-                                  "START CPR",
-                                  style: TextStyle(
+                                  lang.translate('cpr', 'start_cpr'),
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
