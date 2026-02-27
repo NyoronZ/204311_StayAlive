@@ -17,7 +17,8 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings_outlined, color: primaryColor, size: 30),
+            icon: const Icon(Icons.settings_outlined,
+                color: primaryColor, size: 30),
             onPressed: () => Navigator.pushNamed(context, '/settings'),
           ),
         ],
@@ -30,8 +31,8 @@ class HomeScreen extends StatelessWidget {
             // --- Header Section ---
             Center(
               child: Image.asset(
-                'assets/images/stayalive_logo.png', 
-                width: MediaQuery.of(context).size.width * 0.7, 
+                'assets/images/stayalive_logo.png',
+                width: MediaQuery.of(context).size.width * 0.7,
                 fit: BoxFit.contain,
               ),
             ),
@@ -43,7 +44,8 @@ class HomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 decoration: BoxDecoration(
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(25),
@@ -66,10 +68,9 @@ class HomeScreen extends StatelessWidget {
                         child: Text(
                           lang.translate('home', 'start'),
                           style: const TextStyle(
-                            color: Colors.white, 
-                            fontSize: 45, 
-                            fontWeight: FontWeight.bold
-                          ),
+                              color: Colors.white,
+                              fontSize: 45,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -82,7 +83,9 @@ class HomeScreen extends StatelessWidget {
             // --- Section: Emergency ---
             _buildSectionTitle(lang.translate('home', 'emergency')),
             const SizedBox(height: 15),
+            // ใช้ Row เหมือนเดิม เพื่อบังคับให้อยู่บรรทัดเดียวกัน
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildMenuButton(
@@ -111,6 +114,8 @@ class HomeScreen extends StatelessWidget {
             _buildSectionTitle(lang.translate('home', 'others')),
             const SizedBox(height: 15),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildMenuButton(
                   label: lang.translate('home', 'quick_test'),
@@ -118,13 +123,14 @@ class HomeScreen extends StatelessWidget {
                   isSolid: false,
                   onTap: () => Navigator.pushNamed(context, '/quick-test'),
                 ),
-                const SizedBox(width: 20),
                 _buildMenuButton(
                   label: lang.translate('home', 'tutorials'),
                   icon: Icons.library_books,
                   isSolid: false,
                   onTap: () => Navigator.pushNamed(context, '/tutorial'),
                 ),
+                // 🌟 ใส่ "กล่องล่องหน" กว้าง 85px เพื่อดึงระยะให้ปุ่มอื่นตรงกับแถวบนเป๊ะๆ
+                const SizedBox(width: 85),
               ],
             ),
             const SizedBox(height: 30),
@@ -147,6 +153,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // 🌟 ปรับ Widget ปุ่มให้ถูกล็อกความกว้างไว้ที่ 85px เสมอ (กันตัวหนังสือดันกล่องจนเบี้ยว)
   Widget _buildMenuButton({
     required String label,
     required IconData icon,
@@ -156,29 +163,34 @@ class HomeScreen extends StatelessWidget {
     const primaryColor = Color(0xFF10B981);
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            width: 85,
-            height: 85,
-            decoration: BoxDecoration(
-              color: isSolid ? primaryColor : Colors.transparent,
-              border: isSolid ? null : Border.all(color: primaryColor, width: 2),
-              borderRadius: BorderRadius.circular(18),
+      child: SizedBox(
+        width: 85, // ล็อกความกว้างรวมของปุ่ม
+        child: Column(
+          children: [
+            Container(
+              width: 85,
+              height: 85,
+              decoration: BoxDecoration(
+                color: isSolid ? primaryColor : Colors.transparent,
+                border:
+                    isSolid ? null : Border.all(color: primaryColor, width: 2),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Icon(
+                icon,
+                color: isSolid ? Colors.white : primaryColor,
+                size: 45,
+              ),
             ),
-            child: Icon(
-              icon,
-              color: isSolid ? Colors.white : primaryColor,
-              size: 45,
+            const SizedBox(height: 10),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 13, fontWeight: FontWeight.w600, height: 1.2),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
