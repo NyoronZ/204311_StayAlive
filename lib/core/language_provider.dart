@@ -54,6 +54,34 @@ class LanguageProvider extends ChangeNotifier {
         'medical_ref': 'Medical References',
         'select_lang': 'Select Language',
       },
+      'quick_guide_cards': [
+        {
+          'number': '1',
+          'title': 'Check the scene',
+          'description': 'Ensure the surrounding area is safe for both you and the victim.',
+          'keyPoints': [
+            'Check for any danger.',
+            'Do not move the victim unless necessary.',
+          ],
+        },
+        {
+          'number': '2',
+          'title': 'Check for response',
+          'description': 'Tap the victim\'s shoulder and ask loudly, \'Are you okay?\'',
+          'keyPoints': [
+            'Ask the victim.',
+            'Gently shake the victim.',
+          ],
+        },
+        {
+          'number': '3',
+          'title': 'Check symptoms',
+          'description': 'Observe the victim\'s initial symptoms visually or through physical responses.',
+        },
+      ],
+      'quick-guide': {
+        'key-points': 'Key points:',
+      },
     },
     'th': {
       'common': {
@@ -103,6 +131,34 @@ class LanguageProvider extends ChangeNotifier {
         'medical_ref': 'อ้างอิงทางการแพทย์',
         'select_lang': 'เลือกภาษา',
       },
+      'quick_guide_cards': [
+        {
+          'number': '1',
+          'title': 'ตรวจสอบพื้นที่',
+          'description': 'ตรวจสอบความปลอดภัยของสถานที่รอบตัวทั้งคุณและผู้บาดเจ็บ',
+          'keyPoints': [
+            'ตรวจสอบว่ามีอันตรายหรือไม่',
+            'อย่าย้ายผู้ป่วยถ้าไม่จำเป็น',
+          ],
+        },
+        {
+          'number': '2',
+          'title': 'ตรวจการตอบสนอง',
+          'description': 'เช็คการตอบสนอง แตะไหล่ผู้ป่วยแล้วถามว่า \'โอเคไหม?\'',
+          'keyPoints': [
+            'ถามผู้ป่วย',
+            'เขย่าตัวของผู้ป่วยเบาๆ',
+          ],
+        },
+        {
+          'number': '3',
+          'title': 'เช็คอาการ',
+          'description': 'ตรวจสอบอาการเบื้องต้นของผู้ป่วยจากการมอง หรือการตอบสนองทางกายภาพ',
+        },
+      ],
+      'quick-guide': {
+        'key-points': 'จุดสำคัญ:',
+      },
     },
   };
 
@@ -119,5 +175,10 @@ class LanguageProvider extends ChangeNotifier {
   // Helper to get tutorial pages list
   List<Map<String, String>> getTutorialPages() {
     return List<Map<String, String>>.from(_content[_currentLocale.languageCode]?['tutorial_pages']);
+  }
+
+  // Helper to get quick guide cards list
+  List<Map<String, dynamic>> getQuickGuideCards() {
+    return List<Map<String, dynamic>>.from(_content[_currentLocale.languageCode]?['quick_guide_cards'] ?? []);
   }
 }
