@@ -149,6 +149,7 @@ class LanguageProvider extends ChangeNotifier {
         'cpr_in_progress': 'CPR in progress',
         'continue_btn': 'Continue',
         'complete_session': 'Complete Session',
+        'get_ready': 'Get Ready',
         // Success
         'success': 'Success!',
         'speed': 'Speed',
@@ -300,6 +301,7 @@ class LanguageProvider extends ChangeNotifier {
         'cpr_in_progress': 'กำลังทำ CPR',
         'continue_btn': 'ทำต่อ',
         'complete_session': 'จบการกระทำ CPR',
+        'get_ready': 'เตรียมพร้อม',
         // Success
         'success': 'สำเร็จ!',
         'speed': 'ความเร็ว',
