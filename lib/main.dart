@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/rendering.dart';
 import 'core/language_provider.dart';
 import 'screens/splash/splash_screen.dart';
 import 'screens/tutorial/tutorial.dart';
@@ -12,6 +13,8 @@ import 'screens/cpr/cpr_select_age_screen.dart';
 import 'screens/emergency/quick_guide_screen.dart';
 
 void main() {
+  // OUTLINER: FOR DEBUGGING ONLY!!!
+  debugPaintSizeEnabled = false;
   runApp(
     ChangeNotifierProvider(
       create: (context) => LanguageProvider(),
