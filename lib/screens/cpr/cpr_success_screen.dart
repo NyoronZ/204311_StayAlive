@@ -97,8 +97,10 @@ class CprSuccessScreen extends StatelessWidget {
                             lang.translate('cpr', 'speed'), "120 BPM"),
                         const Divider(
                             color: Colors.white, thickness: 1.5, height: 25),
-                        _buildStatRow(Icons.person_outline,
-                            lang.translate('cpr', 'age'), lang.translate('cpr', ageGroup.toLowerCase())),
+                        _buildStatRow(
+                            Icons.person_outline,
+                            lang.translate('cpr', 'age'),
+                            lang.translate('cpr', ageGroup.toLowerCase())),
                         const Divider(
                             color: Colors.white, thickness: 1.5, height: 25),
                         _buildStatRow(Icons.timer_outlined,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../core/language_provider.dart';
 import 'dart:async';
 import 'cpr_success_screen.dart';
@@ -16,6 +17,8 @@ class CprTimerScreen extends StatefulWidget {
 }
 
 class _CprTimerScreenState extends State<CprTimerScreen> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   final Color darkRed = const Color(0xFF9E2A2B);
   final Color buttonRed = const Color(0xFFDE6464);
   final Color primaryGreen = const Color(0xFF10B981);
@@ -34,6 +37,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
 
   @override
   void dispose() {
+    _audioPlayer.dispose();
     _timer?.cancel();
     _overallTimer?.cancel();
     super.dispose();
@@ -52,6 +56,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       // TODO: ใส่เสียง Beep ตรงนี้
+      _audioPlayer.play(AssetSource('audio/beep.mp3'));
       debugPrint("BEEP!");
 
       setState(() {
@@ -303,7 +308,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.monitor_heart, color: themeCol, size: 50),
+                Icon(Icons.favorite, color: themeCol, size: 50),
                 const SizedBox(width: 5),
                 const Text(
                   "120",

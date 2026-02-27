@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8  
   shared_preferences: ^2.2.2
   provider: ^6.1.1
+  audioplayers: ^6.5.1
   url_launcher: ^6.3.2
   # google_fonts: ^6.1.0 
 
@@ -26,6 +27,7 @@ flutter:
   
   assets:
     - assets/images/stayalive_logo.png
+    - assets/audio/
   #   - assets/images/heartbeat.png
 
   # fonts:
