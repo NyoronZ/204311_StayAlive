@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/language_provider.dart';
 import '../../components/shadow_card.dart';
 
 class CprSuccessScreen extends StatelessWidget {
@@ -23,6 +25,7 @@ class CprSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     final Color primaryGreen = const Color(0xFF10B981);
     final Color lightGreen = const Color(0xFFC6F6D5);
 
@@ -63,15 +66,15 @@ class CprSuccessScreen extends StatelessWidget {
                               offset: const Offset(0, 10)),
                         ],
                       ),
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.check_circle_outline,
+                          const Icon(Icons.check_circle_outline,
                               color: Colors.white, size: 70),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
-                            "Success!",
-                            style: TextStyle(
+                            lang.translate('cpr', 'success'),
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 38,
                                 fontWeight: FontWeight.bold),
@@ -90,21 +93,30 @@ class CprSuccessScreen extends StatelessWidget {
                         vertical: 25, horizontal: 15),
                     child: Column(
                       children: [
-                        _buildStatRow(Icons.speed, "Speed", "120 BPM"),
+                        _buildStatRow(Icons.speed,
+                            lang.translate('cpr', 'speed'), "120 BPM"),
                         const Divider(
                             color: Colors.white, thickness: 1.5, height: 25),
-                        _buildStatRow(Icons.person_outline, "Age", ageGroup),
+                        _buildStatRow(Icons.person_outline,
+                            lang.translate('cpr', 'age'), ageGroup),
+                        const Divider(
+                            color: Colors.white, thickness: 1.5, height: 25),
+                        _buildStatRow(Icons.timer_outlined,
+                            lang.translate('cpr', 'time'), formattedTime),
                         const Divider(
                             color: Colors.white, thickness: 1.5, height: 25),
                         _buildStatRow(
-                            Icons.timer_outlined, "Time", formattedTime),
+                            Icons.monitor_heart_outlined,
+                            lang
+                                .translate('cpr', 'compressions')
+                                .replaceAll(':', '')
+                                .trim(),
+                            "$totalCompressions"),
                         const Divider(
                             color: Colors.white, thickness: 1.5, height: 25),
-                        _buildStatRow(Icons.monitor_heart_outlined,
-                            "Compressions", "$totalCompressions"),
-                        const Divider(
-                            color: Colors.white, thickness: 1.5, height: 25),
-                        _buildStatRow(Icons.autorenew, "Full Cycles",
+                        _buildStatRow(
+                            Icons.autorenew,
+                            lang.translate('cpr', 'full_cycles'),
                             "$totalCycles"), // 👈 เปลี่ยนเป็น Full Cycles
                       ],
                     ),
@@ -130,9 +142,9 @@ class CprSuccessScreen extends StatelessWidget {
                       ],
                     ),
                     alignment: Alignment.center,
-                    child: const Text(
-                      "Done",
-                      style: TextStyle(
+                    child: Text(
+                      lang.translate('cpr', 'done'),
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),

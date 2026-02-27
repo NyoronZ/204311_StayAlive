@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/language_provider.dart';
 import '../../components/shadow_card.dart';
 import 'cpr_prep_guide_screen.dart'; // อย่าลืม import หน้าถัดไป
 
@@ -17,6 +19,7 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     double textScaleRatio = MediaQuery.of(context).size.width / 375.0;
 
     return Scaffold(
@@ -67,9 +70,9 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                                 color: primaryGreen, size: 24),
                           ),
                           const SizedBox(width: 15),
-                          const Text(
-                            "Select Patient Age",
-                            style: TextStyle(
+                          Text(
+                            lang.translate('cpr', 'select_age_title'),
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold),
@@ -84,8 +87,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                       child: Column(
                         children: [
                           ShadowCard(
-                            title: 'Infant',
-                            subtitle: 'Under 1 year',
+                            title: lang.translate('cpr', 'infant'),
+                            subtitle: lang.translate('cpr', 'infant_sub'),
                             color: const Color(0xFFBFF6C3),
                             emoji: '👶',
                             textScaleRatio: textScaleRatio,
@@ -94,8 +97,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                           ),
                           const SizedBox(height: 15),
                           ShadowCard(
-                            title: 'Child',
-                            subtitle: '1-8 years',
+                            title: lang.translate('cpr', 'child'),
+                            subtitle: lang.translate('cpr', 'child_sub'),
                             color: const Color(0xFFC4E4FF),
                             emoji: '👦',
                             textScaleRatio: textScaleRatio,
@@ -104,8 +107,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                           ),
                           const SizedBox(height: 15),
                           ShadowCard(
-                            title: 'Adult',
-                            subtitle: 'Over 8 years',
+                            title: lang.translate('cpr', 'adult'),
+                            subtitle: lang.translate('cpr', 'adult_sub'),
                             color: const Color(0xFFFFE4C4),
                             emoji: '👨',
                             textScaleRatio: textScaleRatio,
@@ -154,8 +157,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                                 size: 28,
                               ),
                               const SizedBox(width: 10),
-                              const Text("Emergency call",
-                                  style: TextStyle(
+                              Text(lang.translate('cpr', 'emergency_call'),
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500)),
                             ],
@@ -190,14 +193,14 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                                   offset: const Offset(0, 5)),
                             ],
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.play_arrow,
+                              const Icon(Icons.play_arrow,
                                   color: Colors.white, size: 28),
-                              SizedBox(width: 8),
-                              Text("Next Step",
-                                  style: TextStyle(
+                              const SizedBox(width: 8),
+                              Text(lang.translate('cpr', 'next_step'),
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold)),

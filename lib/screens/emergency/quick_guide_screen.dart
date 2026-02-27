@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../widgets/symptom_check_card.dart';
 
 class QuickGuideScreen extends StatelessWidget {
   const QuickGuideScreen({super.key});
@@ -14,21 +15,55 @@ class QuickGuideScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
           title: languageProvider.translate('home', 'quick_guide')),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16.0),
-        itemCount: cardsData.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 16),
-        itemBuilder: (context, index) {
-          final cardData = cardsData[index];
-          return QuickGuideCard(
-            number: cardData['number'],
-            title: cardData['title'],
-            description: cardData['description'],
-            keyPoints: cardData['keyPoints'] != null
-                ? List<String>.from(cardData['keyPoints'])
-                : null,
-          );
+      body: NotificationListener<ScrollUpdateNotification>(
+        onNotification: (notification) {
+          if (notification.metrics.pixels >
+              notification.metrics.maxScrollExtent + 60) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (route) => false);
+            return true;
+          }
+          return false;
         },
+        child: ListView.separated(
+          physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics()),
+          padding: const EdgeInsets.all(16.0),
+          itemCount: cardsData.length +
+              2, // +1 for the new card, +1 for scroll down indicator
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
+          itemBuilder: (context, index) {
+            if (index == cardsData.length + 1) {
+              return Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Text(
+                    languageProvider.translate('emergency_call', 'scroll_down'),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  const Icon(Icons.keyboard_double_arrow_down,
+                      size: 40, color: Colors.black),
+                  const SizedBox(height: 20),
+                ],
+              );
+            }
+            if (index == cardsData.length) {
+              // The symptom check card comes after all the quick guide cards
+              return const SymptomCheckCard();
+            }
+            final cardData = cardsData[index];
+            return QuickGuideCard(
+              number: cardData['number'],
+              title: cardData['title'],
+              description: cardData['description'],
+              keyPoints: cardData['keyPoints'] != null
+                  ? List<String>.from(cardData['keyPoints'])
+                  : null,
+            );
+          },
+        ),
       ),
     );
   }

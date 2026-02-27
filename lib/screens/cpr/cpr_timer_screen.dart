@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/language_provider.dart';
 import 'dart:async';
 import 'cpr_success_screen.dart';
 import '../../components/shadow_card.dart';
@@ -62,10 +64,11 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
     });
   }
 
-  String _getDepthInfo() {
-    if (widget.ageGroup == 'Infant') return "Infant: ~3 cm";
-    if (widget.ageGroup == 'Child') return "Child: ~5 cm";
-    return "Adult: ~5 cm";
+  String _getDepthInfo(LanguageProvider lang) {
+    if (widget.ageGroup == 'Infant')
+      return lang.translate('cpr', 'depth_infant');
+    if (widget.ageGroup == 'Child') return lang.translate('cpr', 'depth_child');
+    return lang.translate('cpr', 'depth_adult');
   }
 
   Color _getThemeColor() {
@@ -82,6 +85,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     int secondsRemaining = 15 - (compressions ~/ 2);
     if (currentPhase == CprPhase.ready) secondsRemaining = 15;
     if (currentPhase == CprPhase.breathing) secondsRemaining = 0;
@@ -118,20 +122,28 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                             60, // 👈 ล็อกความสูงของการ์ดนี้ ไม่ให้หดตัวเวลาเหลือบรรทัดเดียว
                         child: Center(
                           child: currentPhase == CprPhase.breathing
-                              ? const Text("Give 2 small breaths",
-                                  style: TextStyle(
+                              ? Text(lang.translate('cpr', 'give_breaths'),
+                                  style: const TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold))
                               : Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text("Push Depth",
+                                    Text(lang.translate('cpr', 'push_depth'),
                                         style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: lang.currentLocale
+                                                        .languageCode ==
+                                                    'th'
+                                                ? 18
+                                                : 20,
                                             fontWeight: FontWeight.bold)),
-                                    Text(_getDepthInfo(),
-                                        style: const TextStyle(
-                                            fontSize: 22,
+                                    Text(_getDepthInfo(lang),
+                                        style: TextStyle(
+                                            fontSize: lang.currentLocale
+                                                        .languageCode ==
+                                                    'th'
+                                                ? 20
+                                                : 22,
                                             fontWeight: FontWeight.bold)),
                                   ],
                                 ),
@@ -156,11 +168,13 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Compressions: $compressions/30",
+                                  Text(
+                                      "${lang.translate('cpr', 'compressions')} $compressions/30",
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18)),
-                                  Text("Cycle $cycle",
+                                  Text(
+                                      "${lang.translate('cpr', 'cycle')} $cycle",
                                       style: TextStyle(
                                           color: primaryGreen,
                                           fontWeight: FontWeight.bold,
@@ -181,7 +195,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                               const SizedBox(height: 8),
                               Center(
                                 child: Text(
-                                  "${30 - compressions} compressions until breath",
+                                  "${30 - compressions} ${lang.translate('cpr', 'until_breath')}",
                                   style: const TextStyle(
                                       fontSize: 10, color: Colors.black54),
                                 ),
@@ -199,19 +213,19 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                   children: [
                     if (currentPhase == CprPhase.ready)
                       _buildActionButton(
-                          title: "START CPR",
+                          title: lang.translate('cpr', 'start_cpr'),
                           color: buttonRed,
                           icon: Icons.play_arrow,
                           onTap: _startCompressions)
                     else if (currentPhase == CprPhase.compressing)
                       _buildActionButton(
-                          title: "CPR in progress",
+                          title: lang.translate('cpr', 'cpr_in_progress'),
                           color: primaryGreen,
                           icon: Icons.favorite,
                           onTap: () {})
                     else if (currentPhase == CprPhase.breathing)
                       _buildActionButton(
-                        title: "Continue",
+                        title: lang.translate('cpr', 'continue_btn'),
                         color: orangeColor,
                         icon: Icons.play_arrow,
                         onTap: () {
@@ -226,7 +240,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                       maintainAnimation: true,
                       maintainState: true,
                       child: _buildActionButton(
-                        title: "Complete Session",
+                        title: lang.translate('cpr', 'complete_session'),
                         color: const Color(0xFF4A554C),
                         icon: null,
                         onTap: () {
