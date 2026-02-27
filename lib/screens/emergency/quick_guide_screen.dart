@@ -51,7 +51,7 @@ class QuickGuideCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);
-    const mainGreen = Color(0xFF00A651);
+    const mainGreen = Color(0xFF10B981);
     const lightGreen = Color(0xFFA5F0C5);
     const lightGreenBorder = Color(0xFF69F0AE);
 

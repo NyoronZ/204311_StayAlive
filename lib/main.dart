@@ -8,7 +8,7 @@ import 'screens/settings/settings_screen.dart';
 import 'screens/other/quick_test_screen.dart';
 import 'screens/emergency/emergency_call_screen.dart';
 import 'screens/emergency/find_hospital_screen.dart';
-import 'screens/home/start_cpr_screen.dart';
+import 'screens/cpr/cpr_select_age_screen.dart';
 import 'screens/emergency/quick_guide_screen.dart';
 
 void main() {
@@ -38,7 +38,7 @@ class StayAliveApp extends StatelessWidget {
         '/quick-test': (context) => const QuickTestScreen(),
         '/emergency-call': (context) => const EmergencyCallScreen(),
         '/find-hospital': (context) => const FindHospitalScreen(),
-        '/start': (context) => const StartCprScreen(),
+        '/start': (context) => const CprSelectAgeScreen(),
         '/quick-guide': (context) => const QuickGuideScreen(),
       },
     );
