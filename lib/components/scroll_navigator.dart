@@ -53,18 +53,20 @@ class ScrollDownIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isDark ? Colors.white70 : Colors.black87;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: 16),
         Text(
           text,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black87),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 16, color: color),
         ),
         const SizedBox(height: 8),
-        const Icon(Icons.keyboard_double_arrow_down,
-            size: 40, color: Colors.black87),
+        Icon(Icons.keyboard_double_arrow_down, size: 40, color: color),
         const SizedBox(height: 20),
       ],
     );
