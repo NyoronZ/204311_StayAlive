@@ -48,6 +48,7 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
             lang.translate('cpr', 'prep_infant_ch2'),
             lang.translate('cpr', 'prep_infant_ch3')
           ],
+          'darkColor': const Color(0xFF1E3A24),
         };
       case 'Child':
         return {
@@ -60,6 +61,7 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
             lang.translate('cpr', 'prep_child_ch2'),
             lang.translate('cpr', 'prep_child_ch3')
           ],
+          'darkColor': const Color(0xFF1E2E3D),
         };
       case 'Adult':
       default:
@@ -73,6 +75,7 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
             lang.translate('cpr', 'prep_adult_ch2'),
             lang.translate('cpr', 'prep_adult_ch3')
           ],
+          'darkColor': const Color(0xFF3D2E1E),
         };
     }
   }
@@ -116,11 +119,16 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                           children: [
                             Container(
                                 padding: const EdgeInsets.all(5),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.white.withOpacity(0.1)
+                                        : Colors.white, 
                                     shape: BoxShape.circle),
                                 child: Icon(Icons.priority_high,
-                                    color: primaryGreen, size: 24)),
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.white
+                                        : primaryGreen, 
+                                    size: 24)),
                             const SizedBox(width: 15),
                             Text(lang.translate('cpr', 'remember'),
                                 style: const TextStyle(
@@ -141,7 +149,9 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                                 width: 70,
                                 height: 70,
                                 decoration: BoxDecoration(
-                                    color: ageData['color'],
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? ageData['darkColor']
+                                        : ageData['color'],
                                     shape: BoxShape.circle,
                                     border: Border.all(
                                         color: primaryGreen, width: 3)),

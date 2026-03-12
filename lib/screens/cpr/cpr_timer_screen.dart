@@ -23,6 +23,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
   final Color greyColor = const Color(0xFF8A9A8B);
   final Color orangeColor = const Color(0xFFF6A030);
   final Color lightGrey = const Color(0xFFE2E8F0);
+  final Color darkGrey = const Color(0xFF1E293B);
 
   final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -201,7 +202,9 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                   child: LinearProgressIndicator(
                                     value: compressions / 30,
-                                    backgroundColor: lightGrey,
+                                    backgroundColor: Theme.of(context).brightness == Brightness.dark
+                                        ? darkGrey
+                                        : lightGrey,
                                     valueColor: AlwaysStoppedAnimation<Color>(
                                         primaryGreen),
                                     minHeight: 12,
@@ -316,7 +319,9 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                 ? (compressions / 30)
                 : 1.0,
             strokeWidth: 12,
-            backgroundColor: lightGrey,
+            backgroundColor: Theme.of(context).brightness == Brightness.dark
+                ? darkGrey
+                : lightGrey,
             valueColor: AlwaysStoppedAnimation<Color>(themeCol),
           ),
         ),

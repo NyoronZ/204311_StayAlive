@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import '../../core/privacy_provider.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -19,8 +21,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future<void> _loadComponents() async {
+    final privacyProvider = Provider.of<PrivacyProvider>(context, listen: false);
     final prefs = await SharedPreferences.getInstance();
-    final hasAcceptedTerms = prefs.getBool('hasAcceptedTerms') ?? false;
     final hasSeenTutorial = prefs.getBool('hasSeenTutorial') ?? false;
 
     if (!mounted) return;
@@ -34,7 +36,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     if (!mounted) return;
 
-    if (!hasAcceptedTerms) {
+    if (!privacyProvider.hasAcceptedTerms) {
       Navigator.pushReplacementNamed(context, '/terms-consent');
     } else {
       Navigator.pushReplacementNamed(

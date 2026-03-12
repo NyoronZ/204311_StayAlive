@@ -49,9 +49,12 @@ class TermsScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       section['body'] ?? "",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         height: 1.5,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey[300]
+                            : Colors.black87,
                       ),
                     ),
                   ],

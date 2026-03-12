@@ -82,7 +82,9 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'infant'),
                                 subtitle: lang.translate('cpr', 'infant_sub'),
-                                color: const Color(0xFFBFF6C3),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF1E3A24)
+                                    : const Color(0xFFBFF6C3),
                                 emoji: '👶',
                                 textScaleRatio: textScaleRatio,
                                 isSelected: selectedAge == 'Infant',
@@ -93,7 +95,9 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'child'),
                                 subtitle: lang.translate('cpr', 'child_sub'),
-                                color: const Color(0xFFC4E4FF),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF1E2E3D)
+                                    : const Color(0xFFC4E4FF),
                                 emoji: '👦',
                                 textScaleRatio: textScaleRatio,
                                 isSelected: selectedAge == 'Child',
@@ -104,7 +108,9 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'adult'),
                                 subtitle: lang.translate('cpr', 'adult_sub'),
-                                color: const Color(0xFFFFE4C4),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF3D2E1E)
+                                    : const Color(0xFFFFE4C4),
                                 emoji: '👨',
                                 textScaleRatio: textScaleRatio,
                                 isSelected: selectedAge == 'Adult',

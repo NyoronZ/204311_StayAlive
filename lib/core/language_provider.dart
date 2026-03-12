@@ -80,14 +80,25 @@ class LanguageProvider extends ChangeNotifier {
         'language': 'Language',
         'support_sec': 'supporting',
         'help': 'Help',
-        'feedback': 'Feedback',
         'terms': 'Terms and Conditions of Service',
         'privacy_pol': 'Privacy Policy',
         'medical_ref': 'Medical References',
         'select_lang': 'Select Language',
-        'display_sec': 'CONFIGURATION',
+        'display_sec': 'configuration',
         'dark_mode': 'Dark Mode',
         'text_size': 'Text Size',
+        'loc_permission': 'Location Permission',
+        'loc_permission_desc':
+            'Allow the app to access your location to find nearby hospitals.',
+        'accept_terms': 'Terms and Conditions',
+        'accept_terms_desc':
+            'Accepting the terms is required to use the application.',
+        'revoke_title': 'Revoke Terms?',
+        'revoke_desc':
+            'If you revoke your acceptance of the Terms and Conditions, the app will close and you will need to accept them again to use the application.',
+        'cancel': 'Cancel',
+        'revoke_btn': 'Revoke and Close',
+        'loc_required': 'Location permission required.',
       },
       'quick_guide_cards': [
         {
@@ -265,11 +276,11 @@ class LanguageProvider extends ChangeNotifier {
       },
       'find_hospital_sec': {
         'title': 'Find Hospital',
-        'search': 'search',
+        'search': 'Search',
         'search_hint': 'Search hospital',
         'near_me': 'Hospitals near me >',
-        'select_dest': 'select the destination',
-        'your_position': 'your position',
+        'select_dest': 'Select the destination',
+        'your_position': 'Your position',
         'scroll_down': 'Scroll down to go to home page',
         'loc_fetching': 'Finding your location...',
         'hosp_fetching': 'Searching for nearby hospitals...',
@@ -280,6 +291,11 @@ class LanguageProvider extends ChangeNotifier {
         'loc_permission_title': 'Location Access Required',
         'loc_permission_desc': 'The app needs GPS to find and show the nearest hospitals to your current location.',
         'loc_permission_btn': 'Allow / Enable GPS',
+        'try_again': 'Try again',
+        'app_settings_needed': 'Please allow location access in your phone settings',
+        'no_coordinates': 'Unable to determine coordinates\nPlease try again in an open area',
+        'server_error': 'Server returned an error. Please try again',
+        'connection_error': 'An error occurred while connecting to the internet',
       },
       'cpr_conditions': {
         'title_when_cpr': 'Patient\'s Symptoms',
@@ -509,7 +525,8 @@ class LanguageProvider extends ChangeNotifier {
               'The compression rate for infants is the same as for adults and children: 100-120 compressions per minute to maintain effective circulation.'
         },
         {
-          'question': 'What should you do if the airway is blocked during CPR?',
+          'question':
+              'What should you do if the airway is blocked during CPR?',
           'options': [
             'Perform abdominal thrusts',
             'Give back blows',
@@ -767,6 +784,56 @@ class LanguageProvider extends ChangeNotifier {
             'detail': 'First Aid and CPR Training Guidelines for Thailand.'
           }
         ]
+      },
+      'help_page': {
+        'title': 'Help Guide',
+        'sections': [
+          {
+            'title': '1. Introduction & Tutorial',
+            'body':
+                'When users open the application, they will first encounter the tutorial screen (during the first-time use). This tutorial explains how to use the application and provides basic knowledge about CPR. After completing the tutorial, users will be directed to the main page. Users can press Skip to jump directly to the final step.'
+          },
+          {
+            'title': '2. Getting Started',
+            'body':
+                'After the tutorial, the system will display the Terms and Conditions of Service page. Users must accept the terms before they are allowed to use the application. The system will then request access permissions such as location access. If the user presses X, the application will still function normally. However, when a feature that requires permission is used, the system will request the permission again.'
+          },
+          {
+            'title': '3. Start CPR',
+            'body':
+                'When the user selects the Start menu, a window will appear asking the user to select the patient\'s age group. Users may also select the Emergency Call checkbox, which will automatically contact the nearest hospital. After pressing Next Step, the system will display concise instructions and information. When the user presses Start CPR, the application will navigate to the assistance screen. This screen includes a cycle timer, a display showing the selected patient type, a counter showing the number of completed cycles, which increases until the required number of cycles is reached. Once completed, the system will send a signal. The screen also includes a status display and a button to stop CPR.'
+          },
+          {
+            'title': '4. Quick Guide',
+            'body':
+                'When the user selects the Quick Guide menu, the system will display steps related to assisting and observing patients who may require CPR. Users can scroll down to view additional information. When a user selects a patient\'s symptom, the system will automatically navigate to the relevant page within 5 seconds. This page displays the patient\'s symptoms and the user\'s current location. Users can press Emergency Call to contact the hospital. On the final page, there will be a Start CPR option if the user wishes to perform CPR themselves.'
+          },
+          {
+            'title': '5. Emergency Call',
+            'body':
+                'When the user selects the Emergency Call menu, the system will display a page containing information about important emergency service units in Thailand. An Emergency Call button will also be available to contact a hospital.'
+          },
+          {
+            'title': '6. Find Hospital',
+            'body':
+                'When the user selects the Find Hospital menu, the system will display a page with a search field where users can search for a hospital by name. If no text is entered, the system will display the nearest hospitals by default. When the user selects a hospital, the system will show a map with navigation between the user\'s location and the selected hospital. Users can zoom in or out on the map.'
+          },
+          {
+            'title': '7. Quick Test',
+            'body':
+                'When the user selects the Quick Test menu, the system will display a quiz page. If the user answers correctly, the correct answer will be highlighted and an explanation will be displayed. If the user answers incorrectly, the system will display the correct answer and highlight the correct option in green and the incorrect option in red, along with an explanation of the correct answer. Users can press Next to proceed to the next question and Previous to return to the previous question.'
+          },
+          {
+            'title': '8. Tutorials Menu',
+            'body':
+                'When the user selects the Tutorials menu, the system will display instructions on how to use the application and provide basic CPR knowledge. At the final step, users can press a button to navigate to the main page. Users may also press Skip to jump directly to the last step.'
+          },
+          {
+            'title': '9. Settings',
+            'body':
+                'When the user presses the gear icon in the top-right corner, the system will navigate to the Settings page. The available options include Notifications, Configuration, Privacy, Language, Help, Terms and Conditions of Service, Privacy Policy, and Medical References.'
+          }
+        ]
       }
     },
     'th': {
@@ -843,7 +910,6 @@ class LanguageProvider extends ChangeNotifier {
         'language': 'ภาษา',
         'support_sec': 'การสนับสนุน',
         'help': 'ช่วยเหลือ',
-        'feedback': 'ข้อเสนอแนะ',
         'terms': 'ข้อกำหนดและเงื่อนไขการใช้บริการ',
         'privacy_pol': 'นโยบายความเป็นส่วนตัว',
         'medical_ref': 'อ้างอิงทางการแพทย์',
@@ -851,6 +917,17 @@ class LanguageProvider extends ChangeNotifier {
         'display_sec': 'การกำหนดค่า',
         'dark_mode': 'โหมดมืด',
         'text_size': 'ขนาดตัวอักษร',
+        'loc_permission': 'การอนุญาตตำแหน่ง',
+        'loc_permission_desc':
+            'อนุญาตให้แอปเข้าถึงตำแหน่งของคุณเพื่อค้นหาโรงพยาบาลใกล้เคียง',
+        'accept_terms': 'ข้อกำหนดและเงื่อนไข',
+        'accept_terms_desc': 'จำเป็นต้องยอมรับข้อกำหนดเพื่อใช้งานแอปพลิเคชัน',
+        'revoke_title': 'ยกเลิกข้อตกลง?',
+        'revoke_desc':
+            'หากคุณยกเลิกการยอมรับข้อกำหนดและเงื่อนไข แอปจะปิดตัวลงและคุณจะต้องยอมรับอีกครั้งเพื่อใช้งานแอปพลิเคชัน',
+        'cancel': 'ยกเลิก',
+        'revoke_btn': 'ยกเลิกและปิดแอป',
+        'loc_required': 'จำเป็นต้องได้รับอนุญาตตำแหน่ง',
       },
       'quick_guide_cards': [
         {
@@ -1023,12 +1100,12 @@ class LanguageProvider extends ChangeNotifier {
         'done': 'เสร็จสิ้น',
       },
       'find_hospital_sec': {
-        'title': 'Find Hospital',
-        'search': 'search',
+        'title': 'ค้นหาโรงพยาบาล',
+        'search': 'ค้นหา',
         'search_hint': 'ค้นหาโรงพยาบาล',
         'near_me': 'โรงพยาบาลใกล้ฉัน >',
-        'select_dest': 'select the destination',
-        'your_position': 'your position',
+        'select_dest': 'เลือกจุดหมายปลายทาง',
+        'your_position': 'ตำแหน่งของคุณ',
         'scroll_down': 'เลื่อนลงเพื่อไปยังหน้าหลัก',
         'loc_fetching': 'กำลังค้นหาตำแหน่งของคุณ...',
         'hosp_fetching': 'กำลังค้นหาโรงพยาบาลใกล้เคียง...',
@@ -1039,6 +1116,11 @@ class LanguageProvider extends ChangeNotifier {
         'loc_permission_title': 'ต้องการเข้าถึงพิกัดของคุณ',
         'loc_permission_desc': 'แอปจำเป็นต้องใช้สัญญาณ GPS เพื่อค้นหาและแสดงรายการโรงพยาบาลที่อยู่ใกล้คุณที่สุดในขณะนี้',
         'loc_permission_btn': 'อนุญาต / เปิดใช้งาน GPS',
+        'try_again': 'ลองใหม่อีกครั้ง',
+        'app_settings_needed': 'กรุณาอนุญาตการเข้าถึงตำแหน่งในหน้าการตั้งค่าของมือถือ',
+        'no_coordinates': 'ไม่สามารถระบุพิกัดได้\nกรุณาลองใหม่ในที่โล่ง',
+        'server_error': 'เซิร์ฟเวอร์ตอบกลับผิดพลาด กรุณาลองใหม่',
+        'connection_error': 'เกิดข้อผิดพลาดในการเชื่อมต่ออินเทอร์เน็ต',
       },
       'cpr_conditions': {
         'title_when_cpr': 'อาการของผู้ป่วย',
@@ -1515,6 +1597,56 @@ class LanguageProvider extends ChangeNotifier {
             'detail': 'แนวทางการฝึกอบรมการปฐมพยาบาลและการทำ CPR สำหรับประเทศไทย'
           }
         ]
+      },
+      'help_page': {
+        'title': 'คู่มือการใช้งาน',
+        'sections': [
+          {
+            'title': '1. หน้าแรก & หน้าสอนการใช้งาน',
+            'body':
+                'เมื่อผู้ใช้เปิดแอปพลิเคชัน จะพบกับ หน้าสอนการใช้งาน (Tutorials) ในการใช้งานครั้งแรก ซึ่งจะแนะนำวิธีการใช้งานแอปและให้ความรู้พื้นฐานเกี่ยวกับ CPR หลังจากจบขั้นตอนดังกล่าว ระบบจะพาผู้ใช้ไปยังหน้าหลัก โดยผู้ใช้สามารถกด Skip เพื่อข้ามไปยังขั้นตอนสุดท้ายได้'
+          },
+          {
+            'title': '2. เริ่มต้นใช้งาน',
+            'body':
+                'หลังจากนั้น ระบบจะแสดงหน้า Terms and Conditions of Service ซึ่งผู้ใช้จำเป็นต้องกดยอมรับก่อนจึงจะสามารถใช้งานแอปพลิเคชันได้ ระบบจะทำการขอสิทธิ์ในการเข้าถึงการใช้งานบางอย่าง เช่น ตำแหน่ง (Location) หากผู้ใช้กด X ระบบยังคงอนุญาตให้ใช้งานแอปได้ตามปกติ แต่เมื่อผู้ใช้เรียกใช้ฟีเจอร์ที่ต้องการสิทธิ์ดังกล่าว ระบบจะทำการขออนุญาตอีกครั้ง'
+          },
+          {
+            'title': '3. เริ่มทำ CPR',
+            'body':
+                'เมื่อผู้ใช้เลือกเมนู Start ระบบจะแสดงหน้าต่างเพื่อให้ผู้ใช้เลือก ช่วงอายุของผู้ป่วย และสามารถเลือก Emergency Call เพื่อให้ระบบติดต่อไปยังโรงพยาบาลที่ใกล้ที่สุดได้ เมื่อผู้ใช้กด Next Step ระบบจะแสดงข้อมูลและคำแนะนำแบบสรุป เมื่อผู้ใช้กด Start CPR ระบบจะพาไปยังหน้าช่วยเหลือ ซึ่งประกอบด้วย ตัวจับเวลาในแต่ละรอบ, ช่องแสดงประเภทของผู้ป่วยที่เลือก, ตัวนับจำนวนรอบของการทำ CPR ซึ่งจะเพิ่มขึ้นเรื่อย ๆ จนถึงจำนวนที่กำหนด เมื่อครบกำหนด ระบบจะส่งสัญญาณแจ้งเตือน พร้อมช่องแสดงสถานะ และปุ่มหยุดการทำ CPR'
+          },
+          {
+            'title': '4. คู่มือด่วน',
+            'body':
+                'เมื่อผู้ใช้เลือกเมนู Quick Guide ระบบจะแสดงขั้นตอนการช่วยเหลือและการสังเกตอาการของผู้ป่วยที่อาจต้องทำ CPR ผู้ใช้สามารถเลื่อนหน้าจอเพื่อดูข้อมูลเพิ่มเติมได้ เมื่อผู้ใช้เลือก อาการของผู้ป่วย ระบบจะนำทางไปยังหน้าที่เกี่ยวข้องภายใน 5 วินาที โดยหน้าดังกล่าวจะแสดงข้อมูลอาการของผู้ป่วย และ ตำแหน่งปัจจุบันของผู้ใช้ ผู้ใช้สามารถกด Emergency Call เพื่อติดต่อโรงพยาบาล และในหน้าสุดท้ายจะมีตัวเลือก Start CPR หากผู้ใช้ต้องการทำ CPR ด้วยตนเอง'
+          },
+          {
+            'title': '5. โทรฉุกเฉิน',
+            'body':
+                'เมื่อผู้ใช้เลือกเมนู Emergency Call ระบบจะแสดงหน้าข้อมูลเกี่ยวกับ หน่วยฉุกเฉินที่สำคัญในประเทศไทย พร้อมปุ่ม Emergency Call สำหรับติดต่อโรงพยาบาล'
+          },
+          {
+            'title': '6. ค้นหาโรงพยาบาล',
+            'body':
+                'เมื่อผู้ใช้เลือกเมนู Find Hospital ระบบจะแสดงหน้าค้นหาโรงพยาบาล โดยมี ช่องค้นหา สำหรับพิมพ์ชื่อโรงพยาบาล หากผู้ใช้ไม่ได้พิมพ์ข้อความใด ๆ ระบบจะแสดง รายชื่อโรงพยาบาลที่อยู่ใกล้ที่สุด เมื่อผู้ใช้เลือกโรงพยาบาล ระบบจะแสดง แผนที่เส้นทางระหว่างตำแหน่งของผู้ใช้และโรงพยาบาล และผู้ใช้สามารถซูมแผนที่ได้'
+          },
+          {
+            'title': '7. แบบทดสอบ',
+            'body':
+                'เมื่อผู้ใช้เลือกเมนู Quick Test ระบบจะแสดงหน้า แบบทดสอบ หากผู้ใช้ตอบถูก ระบบจะไฮไลท์คำตอบที่ถูกต้องพร้อมแสดงคำอธิบาย หากผู้ใช้ตอบผิด ระบบจะแสดงคำตอบที่ถูกต้อง โดยไฮไลท์ตัวเลือกที่ถูกด้วย สีเขียว และตัวเลือกที่ผิดด้วย สีแดง พร้อมแสดงคำอธิบาย ผู้ใช้สามารถกด Next เพื่อไปยังคำถามถัดไป และ Previous เพื่อกลับไปยังคำถามก่อนหน้า'
+          },
+          {
+            'title': '8. เมนูบทเรียน',
+            'body':
+                'เมื่อผู้ใช้เลือกเมนู Tutorials ระบบจะแสดงคำแนะนำการใช้งานแอปและความรู้พื้นฐานเกี่ยวกับ CPR เมื่อถึงขั้นตอนสุดท้าย ผู้ใช้สามารถกดปุ่มเพื่อไปยังหน้าหลัก หรือกด Skip เพื่อข้ามไปยังขั้นตอนสุดท้ายได้'
+          },
+          {
+            'title': '9. การตั้งค่า',
+            'body':
+                'เมื่อผู้ใช้กด ไอคอนรูปเฟืองที่มุมขวาบน ระบบจะนำผู้ใช้ไปยังหน้า Settings ซึ่งประกอบด้วยเมนูต่าง ๆ ดังนี้ Notifications (ตั้งค่าการแจ้งเตือน), Configuration (ตั้งค่าระบบ), Privacy (ความเป็นส่วนตัว), Language (เปลี่ยนภาษา), Help (คู่มือการใช้งาน), Terms and Conditions (ข้อตกลงทางกฎหมาย), Privacy Policy (นโยบายความเป็นส่วนตัว) และ Medical References (แหล่งอ้างอิงข้อมูลทางการแพทย์)'
+          }
+        ]
       }
     },
   };
@@ -1584,5 +1716,10 @@ class LanguageProvider extends ChangeNotifier {
   Map<String, dynamic> getMedicalRefPage() {
     return Map<String, dynamic>.from(
         _content[_currentLocale.languageCode]?['medical_ref_page'] ?? {});
+  }
+
+  Map<String, dynamic> getHelpPage() {
+    return Map<String, dynamic>.from(
+        _content[_currentLocale.languageCode]?['help_page'] ?? {});
   }
 }

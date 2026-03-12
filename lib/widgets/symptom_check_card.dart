@@ -101,13 +101,17 @@ class _SymptomCheckCardState extends State<SymptomCheckCard> {
                 ),
                 child: Row(
                   children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
+                    CircleAvatar(
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white.withOpacity(0.1)
+                          : Colors.white,
                       radius: 20,
                       child: Text(
                         "3",
                         style: TextStyle(
-                          color: mainGreen,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : mainGreen,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
@@ -173,6 +177,7 @@ class _SymptomCheckCardState extends State<SymptomCheckCard> {
         if (needsCpr) _buildCprRequiredCard(languageProvider),
         if (needsCpr) const SizedBox(height: 16),
         if (needsCpr) _buildStartCprCard(context, languageProvider),
+        const SizedBox(height: 20),
       ],
     );
   }

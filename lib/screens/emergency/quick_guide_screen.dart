@@ -202,7 +202,9 @@ class _QuickGuideScreenState extends State<QuickGuideScreen> {
                         onPressed: () =>
                             setState(() => _selectedAgeGroup = 'infant_child'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.blue[900]
+                              : Colors.blueAccent,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
@@ -296,12 +298,16 @@ class QuickGuideCard extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white.withOpacity(0.1)
+                      : Colors.white,
                   radius: 20,
                   child: Text(
                     number,
-                    style: const TextStyle(
-                      color: mainGreen,
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : mainGreen,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
@@ -349,9 +355,14 @@ class QuickGuideCard extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: lightGreen.withValues(alpha: 0.5),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? mainGreen.withOpacity(0.1)
+                          : lightGreen.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: lightGreenBorder),
+                      border: Border.all(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? mainGreen.withOpacity(0.3)
+                              : lightGreenBorder),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

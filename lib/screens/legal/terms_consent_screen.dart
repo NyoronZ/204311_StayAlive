@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../core/privacy_provider.dart';
 import '../../core/language_provider.dart';
 
 class TermsAndConditionsConsentScreen extends StatelessWidget {
   const TermsAndConditionsConsentScreen({super.key});
 
   Future<void> _acceptTerms(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('hasAcceptedTerms', true);
+    final privacyProvider = Provider.of<PrivacyProvider>(context, listen: false);
+    await privacyProvider.toggleTerms(true);
+
     if (context.mounted) {
-      // Check if they need tutorial or can go home
+      final prefs = await SharedPreferences.getInstance();
       final hasSeenTutorial = prefs.getBool('hasSeenTutorial') ?? false;
-      Navigator.pushReplacementNamed(
-        context,
-        hasSeenTutorial ? '/home' : '/tutorial',
-      );
+      if (hasSeenTutorial) {
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      } else {
+        Navigator.pushReplacementNamed(context, '/tutorial');
+      }
     }
   }
 

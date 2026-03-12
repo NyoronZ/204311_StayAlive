@@ -25,9 +25,12 @@ class MedicalReferencesScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 30.0),
                 child: Text(
                   medicalData['desc'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     height: 1.5,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey[300]
+                        : Colors.black87,
                   ),
                 ),
               ),
@@ -36,7 +39,9 @@ class MedicalReferencesScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 30.0),
                 padding: const EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
-                  color: primaryColor.withValues(alpha: 0.1),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? primaryColor.withOpacity(0.15)
+                      : primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(15),
                   border:
                       Border.all(color: primaryColor.withValues(alpha: 0.3)),
@@ -46,10 +51,12 @@ class MedicalReferencesScreen extends StatelessWidget {
                   children: [
                     Text(
                       medicalData['reviewer']['title'] ?? "",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Colors.grey,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white54
+                            : Colors.grey,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -67,9 +74,11 @@ class MedicalReferencesScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           "${medicalData['reviewer']['author'] ?? ""} — ${medicalData['reviewer']['update_info'] ?? ""}",
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13,
-                            color: Colors.grey,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white54
+                                : Colors.grey,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -77,9 +86,12 @@ class MedicalReferencesScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       medicalData['reviewer']['bio'] ?? "",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         height: 1.5,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.grey[300]
+                            : Colors.black87,
                       ),
                     ),
                   ],
@@ -107,9 +119,11 @@ class MedicalReferencesScreen extends StatelessWidget {
                           const SizedBox(height: 5),
                           Text(
                             ref['detail'] ?? "",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 15,
-                              color: Colors.grey,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white54
+                                  : Colors.grey,
                               height: 1.4,
                             ),
                           ),

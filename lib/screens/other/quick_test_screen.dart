@@ -127,8 +127,10 @@ class _QuickTestScreenState extends State<QuickTestScreen> {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white.withOpacity(0.1)
+                        : Colors.white,
                     shape: BoxShape.circle,
                   ),
                   child: Center(
@@ -204,20 +206,26 @@ class _QuickTestScreenState extends State<QuickTestScreen> {
     final bool isSelected = selectedIdx == index;
     final bool isCorrect = index == correctIdx;
 
-    Color bgColor = const Color(0xFFC6F6D5).withValues(alpha: 0.5);
-    Color borderColor = const Color(0xFF10B981).withValues(alpha: 0.3);
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    Color bgColor = isDark
+        ? const Color(0xFF1A3A34)
+        : const Color(0xFFC6F6D5).withValues(alpha: 0.5);
+    Color borderColor = isDark
+        ? const Color(0xFF10B981).withValues(alpha: 0.4)
+        : const Color(0xFF10B981).withValues(alpha: 0.3);
     Widget? icon;
 
     if (isAnswered) {
       if (isCorrect) {
-        bgColor = const Color(0xFFC6F6D5);
+        bgColor = isDark ? const Color(0xFF065F46) : const Color(0xFFC6F6D5);
         borderColor = const Color(0xFF10B981);
-        icon = const Icon(Icons.check_circle_outline,
+        icon = const Icon(Icons.check_circle,
             color: Color(0xFF10B981), size: 20);
       } else if (isSelected) {
-        bgColor = const Color(0xFFFED7D7);
-        borderColor = Colors.red.withValues(alpha: 0.5);
-        icon = const Icon(Icons.cancel_outlined, color: Colors.red, size: 20);
+        bgColor = isDark ? const Color(0xFF7F1D1D) : const Color(0xFFFED7D7);
+        borderColor = isDark ? Colors.red : Colors.red.withValues(alpha: 0.5);
+        icon = const Icon(Icons.cancel, color: Colors.red, size: 20);
       }
     }
 
@@ -346,7 +354,12 @@ class _QuickTestScreenState extends State<QuickTestScreen> {
               const SizedBox(height: 10),
               Text(
                 '$scoreText $score / ${questions.length}',
-                style: const TextStyle(fontSize: 22),
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey[300]
+                      : Colors.black87,
+                ),
               ),
               const SizedBox(height: 40),
               ElevatedButton(

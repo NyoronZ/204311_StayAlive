@@ -49,7 +49,7 @@ class SettingsScreen extends StatelessWidget {
 
             _buildSettingItem(
               title: lang.translate('settings', 'privacy'),
-              onTap: () => debugPrint("Navigate to Privacy"),
+              onTap: () => Navigator.pushNamed(context, '/privacy-settings'),
             ),
             _buildSettingItem(
               title: lang.translate('settings', 'language'),
@@ -116,11 +116,7 @@ class SettingsScreen extends StatelessWidget {
             const SizedBox(height: 5),
             _buildSettingItem(
               title: lang.translate('settings', 'help'),
-              onTap: () => debugPrint("Navigate to Help"),
-            ),
-            _buildSettingItem(
-              title: lang.translate('settings', 'feedback'),
-              onTap: () => debugPrint("Navigate to Feedback"),
+              onTap: () => Navigator.pushNamed(context, '/help'),
             ),
 
             const SizedBox(height: 40),

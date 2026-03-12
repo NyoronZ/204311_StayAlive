@@ -72,7 +72,10 @@ class ShadowCard extends StatelessWidget {
                           title!,
                           style: TextStyle(
                               fontSize: 18 * (textScaleRatio ?? 1.0),
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black),
                         ),
                         Text(
                           subtitle!,

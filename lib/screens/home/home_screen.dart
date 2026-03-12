@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false, // Prevents unintended back button
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined,

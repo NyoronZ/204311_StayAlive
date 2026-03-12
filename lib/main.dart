@@ -16,6 +16,9 @@ import 'screens/legal/terms_screen.dart';
 import 'screens/legal/privacy_policy_screen.dart';
 import 'screens/legal/medical_references_screen.dart';
 import 'screens/legal/terms_consent_screen.dart';
+import 'screens/settings/privacy_settings_screen.dart';
+import 'screens/settings/help_screen.dart';
+import 'core/privacy_provider.dart';
 
 import 'core/notification_provider.dart';
 import 'core/theme_provider.dart';
@@ -37,6 +40,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
         ChangeNotifierProvider(create: (context) => NotificationProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => PrivacyProvider()),
       ],
       child: const StayAliveApp(),
     ),
@@ -98,6 +102,8 @@ class StayAliveApp extends StatelessWidget {
         '/privacy': (context) => const PrivacyPolicyScreen(),
         '/medical-refs': (context) => const MedicalReferencesScreen(),
         '/terms-consent': (context) => const TermsAndConditionsConsentScreen(),
+        '/privacy-settings': (context) => const PrivacySettingsScreen(),
+        '/help': (context) => const HelpScreen(),
       },
     );
   }

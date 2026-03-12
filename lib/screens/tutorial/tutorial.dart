@@ -25,7 +25,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('hasSeenTutorial', true);
       if (context.mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       }
     }
 
