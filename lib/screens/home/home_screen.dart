@@ -11,10 +11,10 @@ class HomeScreen extends StatelessWidget {
     const primaryColor = Color(0xFF10B981);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false, // Prevents unintended back button
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined,
@@ -31,7 +31,9 @@ class HomeScreen extends StatelessWidget {
             // --- Header Section ---
             Center(
               child: Image.asset(
-                'assets/images/stayalive_logo.png',
+                Theme.of(context).brightness == Brightness.dark
+                    ? 'assets/images/stayalive_logo_dark.png'
+                    : 'assets/images/stayalive_logo.png',
                 width: MediaQuery.of(context).size.width * 0.7,
                 fit: BoxFit.contain,
               ),
@@ -51,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 5),
                     ),

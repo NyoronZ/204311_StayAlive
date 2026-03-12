@@ -11,13 +11,37 @@ import 'screens/emergency/emergency_call_screen.dart';
 import 'screens/emergency/find_hospital_screen.dart';
 import 'screens/cpr/cpr_select_age_screen.dart';
 import 'screens/emergency/quick_guide_screen.dart';
+import 'core/notification_service.dart';
+import 'screens/legal/terms_screen.dart';
+import 'screens/legal/privacy_policy_screen.dart';
+import 'screens/legal/medical_references_screen.dart';
+import 'screens/legal/terms_consent_screen.dart';
+import 'screens/settings/privacy_settings_screen.dart';
+import 'screens/settings/help_screen.dart';
+import 'core/privacy_provider.dart';
 
-void main() {
+import 'core/notification_provider.dart';
+import 'core/theme_provider.dart';
+
+void main() async {
   // OUTLINER: FOR DEBUGGING ONLY!!!
   debugPaintSizeEnabled = false;
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Background Local Notifications
+  final notifService = NotificationService();
+  await notifService.init();
+  await notifService.requestPermissions();
+
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LanguageProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LanguageProvider()),
+        ChangeNotifierProvider(create: (context) => NotificationProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => PrivacyProvider()),
+      ],
       child: const StayAliveApp(),
     ),
   );
@@ -28,10 +52,41 @@ class StayAliveApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    const primaryColor = Color(0xFF10B981);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Stay Alive',
-      theme: ThemeData(primarySwatch: Colors.green),
+      theme: ThemeData(
+        useMaterial3: true,
+        primarySwatch: Colors.green,
+        primaryColor: primaryColor,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.white,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        primarySwatch: Colors.green,
+        primaryColor: primaryColor,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF121212),
+        cardColor: const Color(0xFF1E1E1E),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF121212),
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+      ),
+      themeMode: themeProvider.themeMode,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.linear(themeProvider.fontSizeFactor),
+          ),
+          child: child!,
+        );
+      },
       initialRoute: '/',
       routes: {
         '/': (context) => const LoadingScreen(),
@@ -43,6 +98,12 @@ class StayAliveApp extends StatelessWidget {
         '/find-hospital': (context) => const FindHospitalScreen(),
         '/start': (context) => const CprSelectAgeScreen(),
         '/quick-guide': (context) => const QuickGuideScreen(),
+        '/terms': (context) => const TermsScreen(),
+        '/privacy': (context) => const PrivacyPolicyScreen(),
+        '/medical-refs': (context) => const MedicalReferencesScreen(),
+        '/terms-consent': (context) => const TermsAndConditionsConsentScreen(),
+        '/privacy-settings': (context) => const PrivacySettingsScreen(),
+        '/help': (context) => const HelpScreen(),
       },
     );
   }

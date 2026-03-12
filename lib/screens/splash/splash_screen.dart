@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import '../../core/privacy_provider.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -12,35 +15,43 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    // รอให้ Widget โครงสร้างพื้นฐานพร้อมก่อน แล้วค่อยโหลด
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadComponents();
     });
   }
 
   Future<void> _loadComponents() async {
-    // 1. รอโหลดทุกอย่างให้เสร็จตรงนี้ (await) และรออย่างน้อย 1 วินาที
+    final privacyProvider = Provider.of<PrivacyProvider>(context, listen: false);
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenTutorial = prefs.getBool('hasSeenTutorial') ?? false;
+
+    if (!mounted) return;
     await Future.wait([
       precacheImage(
           const AssetImage('assets/images/stayalive_logo.png'), context),
+      precacheImage(
+          const AssetImage('assets/images/stayalive_logo_dark.png'), context),
       Future.delayed(const Duration(seconds: 1)),
     ]);
 
-    // 2. ป้องกัน Error ถ้าหน้า Loading ถูกปิดไปแล้ว
     if (!mounted) return;
 
-    // 3. โหลดเสร็จทั้งหมด ค่อยไปหน้า HomeScreen
-    Navigator.pushReplacementNamed(
-      context,
-      '/tutorial',
-      // MaterialPageRoute(builder: (context) => const HomeScreen()),
-    );
+    if (!privacyProvider.hasAcceptedTerms) {
+      Navigator.pushReplacementNamed(context, '/terms-consent');
+    } else {
+      Navigator.pushReplacementNamed(
+        context,
+        hasSeenTutorial ? '/home' : '/tutorial',
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF10B981),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      backgroundColor:
+          isDark ? const Color(0xFF1E1E1E) : const Color(0xFF10B981),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -29,12 +29,10 @@ class CprSuccessScreen extends StatelessWidget {
     final Color lightGreen = const Color.fromARGB(255, 221, 255, 232);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-            icon: const Icon(Icons.close, color: Colors.black54, size: 30),
+            icon: const Icon(Icons.close, size: 30),
             onPressed: () =>
                 Navigator.of(context).popUntil((route) => route.isFirst)),
       ),
@@ -60,7 +58,7 @@ class CprSuccessScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                  color: primaryGreen.withOpacity(0.4),
+                                  color: primaryGreen.withValues(alpha: 0.4),
                                   blurRadius: 20,
                                   offset: const Offset(0, 10))
                             ]),
@@ -80,7 +78,9 @@ class CprSuccessScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 35),
                       ShadowCard(
-                        color: lightGreen,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? primaryGreen.withOpacity(0.1)
+                            : lightGreen,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 25, horizontal: 25),
@@ -135,7 +135,7 @@ class CprSuccessScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                            color: primaryGreen.withOpacity(0.3),
+                            color: primaryGreen.withValues(alpha: 0.3),
                             blurRadius: 10,
                             offset: const Offset(0, 5))
                       ]),
@@ -160,16 +160,10 @@ class CprSuccessScreen extends StatelessWidget {
         Icon(icon, color: const Color(0xFF10B981), size: 26),
         const SizedBox(width: 15),
         Text(label,
-            style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w600,
-                color: Colors.black54)),
+            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
         const Spacer(),
         Text(value,
-            style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87)),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       ],
     );
   }

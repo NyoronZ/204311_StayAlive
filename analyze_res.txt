@@ -1,0 +1,30 @@
+﻿Analyzing 204311_StayAlive...                                   
+
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\components\shadow_card.dart:39:35 - deprecated_member_use
+warning - Unused import: 'package:flutter/material.dart' - lib\core\notification_service.dart:2:8 - unused_import
+  error - The named parameter 'settings' is required, but there's no corresponding argument - lib\core\notification_service.dart:33:43 - missing_required_argument
+  error - Too many positional arguments: 0 expected, but 1 found - lib\core\notification_service.dart:33:54 - extra_positional_arguments_could_be_named
+  error - The named parameter 'id' is required, but there's no corresponding argument - lib\core\notification_service.dart:64:43 - missing_required_argument
+  error - Too many positional arguments: 0 expected, but 4 found - lib\core\notification_service.dart:65:7 - extra_positional_arguments_could_be_named
+   info - Statements in an if should be enclosed in a block - lib\screens\cpr\cpr_prep_guide_screen.dart:26:9 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\cpr\cpr_prep_guide_screen.dart:246:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\cpr\cpr_select_age_screen.dart:137:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\cpr\cpr_select_age_screen.dart:212:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\cpr\cpr_success_screen.dart:63:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\cpr\cpr_success_screen.dart:138:49 - deprecated_member_use
+   info - Statements in an if should be enclosed in a block - lib\screens\cpr\cpr_timer_screen.dart:96:7 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\screens\cpr\cpr_timer_screen.dart:113:7 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\cpr\cpr_timer_screen.dart:378:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\emergency\emergency_call_screen.dart:43:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\emergency\quick_guide_screen.dart:127:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\emergency\quick_guide_screen.dart:278:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\emergency\quick_guide_screen.dart:353:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home\home_screen.dart:54:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\tutorial\how_to_cpr.dart:192:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\emergency_call_button.dart:48:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\emergency_call_button.dart:60:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\symptom_check_card.dart:82:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\symptom_check_card.dart:189:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\symptom_check_card.dart:285:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\symptom_check_card.dart:437:34 - deprecated_member_use
+

@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart'; 
 import '../../core/language_provider.dart';
+import '../../core/privacy_provider.dart';
 
 class FindHospitalScreen extends StatefulWidget {
   const FindHospitalScreen({super.key});
@@ -43,10 +44,14 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
 
   Future<void> _checkLocationStatus() async {
     setState(() => _isLoading = true);
+    final privacyProvider = Provider.of<PrivacyProvider>(context, listen: false);
+    
     _isGpsEnabled = await Geolocator.isLocationServiceEnabled();
     LocationPermission permission = await Geolocator.checkPermission();
     _hasPermission = (permission == LocationPermission.always || permission == LocationPermission.whileInUse);
-    if (_isGpsEnabled && _hasPermission) {
+    
+    // Check both OS permissions and app-level privacy setting
+    if (_isGpsEnabled && _hasPermission && privacyProvider.locationEnabled) {
       await _fetchLocationAndHospitals();
     } else {
       setState(() => _isLoading = false);
@@ -54,24 +59,39 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
   }
 
   Future<void> _requestPermissionAndEnableGps() async {
+    final lang = Provider.of<LanguageProvider>(context, listen: false);
     setState(() { _isLoading = true; _errorMessage = null; });
+    final privacyProvider = Provider.of<PrivacyProvider>(context, listen: false);
+
     _isGpsEnabled = await Geolocator.isLocationServiceEnabled();
     if (!_isGpsEnabled) {
       await Geolocator.openLocationSettings();
       setState(() => _isLoading = false);
       return; 
     }
+    
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission(); 
     }
+    
     if (permission == LocationPermission.deniedForever) {
-      setState(() { _errorMessage = "กรุณาอนุญาตการเข้าถึงตำแหน่งในหน้าการตั้งค่าของมือถือ"; _isLoading = false; });
+      setState(() { 
+        _errorMessage = lang.translate('find_hospital_sec', 'app_settings_needed'); 
+        _isLoading = false; 
+      });
       await Geolocator.openAppSettings();
       return;
     }
+    
     _hasPermission = (permission == LocationPermission.always || permission == LocationPermission.whileInUse);
-    if (_isGpsEnabled && _hasPermission) {
+    
+    if (_hasPermission) {
+      // If OS permission is granted, also enable it in app-level privacy settings
+      await privacyProvider.toggleLocation(true);
+    }
+
+    if (_isGpsEnabled && _hasPermission && privacyProvider.locationEnabled) {
       await _fetchLocationAndHospitals();
     } else {
       setState(() => _isLoading = false);
@@ -79,13 +99,17 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
   }
 
   Future<void> _fetchLocationAndHospitals() async {
+    final lang = Provider.of<LanguageProvider>(context, listen: false);
     setState(() { _isLoading = true; _errorMessage = null; });
     try {
       _currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high, timeLimit: const Duration(seconds: 10));
     } catch (e) {
       _currentPosition = await Geolocator.getLastKnownPosition();
       if (_currentPosition == null) {
-        setState(() { _errorMessage = "ไม่สามารถระบุพิกัดได้\nกรุณาลองใหม่ในที่โล่ง"; _isLoading = false; });
+        setState(() { 
+          _errorMessage = lang.translate('find_hospital_sec', 'no_coordinates'); 
+          _isLoading = false; 
+        });
         return;
       }
     }
@@ -154,10 +178,16 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
 
         setState(() { _hospitals = fetchedHospitals; _filteredHospitals = fetchedHospitals; _isLoading = false; });
       } else {
-        setState(() { _errorMessage = "เซิร์ฟเวอร์ตอบกลับผิดพลาด กรุณาลองใหม่"; _isLoading = false; });
+        setState(() { 
+          _errorMessage = lang.translate('find_hospital_sec', 'server_error'); 
+          _isLoading = false; 
+        });
       }
     } catch (e) {
-      setState(() { _errorMessage = 'เกิดข้อผิดพลาดในการเชื่อมต่ออินเทอร์เน็ต'; _isLoading = false; });
+      setState(() { 
+        _errorMessage = lang.translate('find_hospital_sec', 'connection_error'); 
+        _isLoading = false; 
+      });
     }
   }
 
@@ -212,10 +242,15 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
       canPop: _selectedHospital == null,
       onPopInvoked: (didPop) { if (!didPop) _handleBack(); },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white, elevation: 0,
-          leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black54), onPressed: _handleBack),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new, 
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54), 
+            onPressed: _handleBack
+          ),
         ),
         body: SafeArea(
           child: Padding(
@@ -223,9 +258,15 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(20),
+                color: Theme.of(context).cardColor, 
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: primaryGreen, width: 2),
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(Theme.of(context).brightness == Brightness.dark ? 0.2 : 0.05), 
+                    blurRadius: 10, offset: const Offset(0, 5)
+                  )
+                ],
               ),
               child: Column(
                 children: [
@@ -262,15 +303,17 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
       );
     }
 
-    if (!_isGpsEnabled || !_hasPermission) {
+    final privacyProvider = Provider.of<PrivacyProvider>(context);
+
+    if (!_isGpsEnabled || !_hasPermission || !privacyProvider.locationEnabled) {
       return Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.location_on, size: 80, color: Colors.grey.shade300), const SizedBox(height: 20),
+            Icon(Icons.location_on, size: 80, color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[800] : Colors.grey.shade300), const SizedBox(height: 20),
             Text(lang.translate('find_hospital_sec', 'loc_permission_title'), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)), const SizedBox(height: 10),
-            Text(lang.translate('find_hospital_sec', 'loc_permission_desc'), textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, color: Colors.black54)), const SizedBox(height: 30),
+            Text(lang.translate('find_hospital_sec', 'loc_permission_desc'), textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54)), const SizedBox(height: 30),
             SizedBox(
               width: double.infinity, height: 55,
               child: ElevatedButton(
@@ -294,7 +337,14 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
             children: [
               const Icon(Icons.wifi_off, size: 60, color: Colors.redAccent), const SizedBox(height: 15),
               Text(_errorMessage!, textAlign: TextAlign.center, style: const TextStyle(fontSize: 14)), const SizedBox(height: 20),
-              ElevatedButton(onPressed: _fetchLocationAndHospitals, style: ElevatedButton.styleFrom(backgroundColor: primaryGreen), child: const Text("ลองใหม่อีกครั้ง", style: TextStyle(color: Colors.white))),
+              ElevatedButton(
+                onPressed: _fetchLocationAndHospitals, 
+                style: ElevatedButton.styleFrom(backgroundColor: primaryGreen), 
+                child: Text(
+                  lang.translate('find_hospital_sec', 'try_again'), 
+                  style: const TextStyle(color: Colors.white)
+                ),
+              ),
             ],
           ),
         ),
@@ -323,7 +373,11 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
           TextField(
             controller: _searchController, onChanged: _filterSearch,
             decoration: InputDecoration(
-              hintText: lang.translate('find_hospital_sec', 'search_hint'), hintStyle: const TextStyle(color: Colors.black38), filled: true, fillColor: Colors.grey.shade50, contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              hintText: lang.translate('find_hospital_sec', 'search_hint'), 
+              hintStyle: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white38 : Colors.black38), 
+              filled: true, 
+              fillColor: Theme.of(context).brightness == Brightness.dark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50, 
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide(color: primaryGreen, width: 2)),
               focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide(color: primaryGreen, width: 2)),
             ),
@@ -332,9 +386,9 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
           Text(lang.translate('find_hospital_sec', 'near_me'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)), const SizedBox(height: 10),
           Expanded(
             child: _filteredHospitals.isEmpty
-                ? Center(child: Text(lang.translate('find_hospital_sec', 'no_hosp'), style: const TextStyle(color: Colors.black54)))
+                ? Center(child: Text(lang.translate('find_hospital_sec', 'no_hosp'), style: TextStyle(color: Theme.of(context).brightness == Brightness.dark ? Colors.white54 : Colors.black54)))
                 : ListView.separated(
-                    itemCount: _filteredHospitals.length, separatorBuilder: (context, index) => const Divider(color: Colors.grey, height: 25),
+                    itemCount: _filteredHospitals.length, separatorBuilder: (context, index) => Divider(color: Theme.of(context).dividerColor, height: 25),
                     itemBuilder: (context, index) {
                       final hospital = _filteredHospitals[index];
                       return GestureDetector(
@@ -359,11 +413,11 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(hospital['name'], style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: primaryGreen)), const SizedBox(height: 2),
-                                  Text(hospital['name_en'], style: const TextStyle(fontSize: 12, color: Colors.black54)),
+                                  Text(hospital['name_en'], style: TextStyle(fontSize: 12, color: Theme.of(context).brightness == Brightness.dark ? Colors.white54 : Colors.black54)),
                                 ],
                               ),
                             ),
-                            Text("${hospital['distance'].toStringAsFixed(1)} ${lang.translate('find_hospital_sec', 'km')}", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black87))
+                            Text("${hospital['distance'].toStringAsFixed(1)} ${lang.translate('find_hospital_sec', 'km')}", style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black87))
                           ],
                         ),
                       );
@@ -386,10 +440,16 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
           ),
           const SizedBox(height: 10),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15), decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(12)),
+            padding: const EdgeInsets.symmetric(horizontal: 15), 
+            decoration: BoxDecoration(
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100, 
+              borderRadius: BorderRadius.circular(12)
+            ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<Map<String, dynamic>>(
-                isExpanded: true, value: _selectedHospital, icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black87),
+                isExpanded: true, 
+                value: _selectedHospital, 
+                icon: Icon(Icons.keyboard_arrow_down, color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black87),
                 items: _hospitals.map((hosp) {
                   return DropdownMenuItem<Map<String, dynamic>>(value: hosp, child: Text(hosp['name'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis));
                 }).toList(),
@@ -408,7 +468,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey.shade200, 
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[900] : Colors.grey.shade200, 
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(color: primaryGreen, width: 2),
               ),

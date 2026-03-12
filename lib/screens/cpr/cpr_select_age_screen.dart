@@ -22,12 +22,10 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
     double textScaleRatio = MediaQuery.of(context).size.width / 375.0;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black54),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -40,7 +38,7 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: primaryGreen, width: 2),
                   ),
@@ -84,7 +82,9 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'infant'),
                                 subtitle: lang.translate('cpr', 'infant_sub'),
-                                color: const Color(0xFFBFF6C3),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF1E3A24)
+                                    : const Color(0xFFBFF6C3),
                                 emoji: '👶',
                                 textScaleRatio: textScaleRatio,
                                 isSelected: selectedAge == 'Infant',
@@ -95,7 +95,9 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'child'),
                                 subtitle: lang.translate('cpr', 'child_sub'),
-                                color: const Color(0xFFC4E4FF),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF1E2E3D)
+                                    : const Color(0xFFC4E4FF),
                                 emoji: '👦',
                                 textScaleRatio: textScaleRatio,
                                 isSelected: selectedAge == 'Child',
@@ -106,7 +108,9 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'adult'),
                                 subtitle: lang.translate('cpr', 'adult_sub'),
-                                color: const Color(0xFFFFE4C4),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF3D2E1E)
+                                    : const Color(0xFFFFE4C4),
                                 emoji: '👨',
                                 textScaleRatio: textScaleRatio,
                                 isSelected: selectedAge == 'Adult',
@@ -130,16 +134,17 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: Theme.of(context).cardColor,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Colors.black.withOpacity(0.05),
+                                        color: Colors.black
+                                            .withValues(alpha: 0.05),
                                         blurRadius: 10,
                                         offset: const Offset(0, 4))
                                   ],
-                                  border:
-                                      Border.all(color: Colors.grey.shade300),
+                                  border: Border.all(
+                                      color: Colors.grey.withOpacity(0.3)),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -209,7 +214,7 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                  color: color.withOpacity(0.3),
+                  color: color.withValues(alpha: 0.3),
                   blurRadius: 10,
                   offset: const Offset(0, 5))
             ]),

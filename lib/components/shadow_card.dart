@@ -36,7 +36,7 @@ class ShadowCard extends StatelessWidget {
               : Border.all(color: Colors.transparent, width: 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -51,9 +51,13 @@ class ShadowCard extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
                       shape: BoxShape.circle,
+                      border: Border.all(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white24
+                              : Colors.black12),
                     ),
                     child: Text(emoji!,
                         style:
@@ -68,13 +72,19 @@ class ShadowCard extends StatelessWidget {
                           title!,
                           style: TextStyle(
                               fontSize: 18 * (textScaleRatio ?? 1.0),
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black),
                         ),
                         Text(
                           subtitle!,
                           style: TextStyle(
                               fontSize: 14 * (textScaleRatio ?? 1.0),
-                              color: Colors.grey.shade700),
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white70
+                                  : Colors.grey.shade700),
                         ),
                       ],
                     ),
