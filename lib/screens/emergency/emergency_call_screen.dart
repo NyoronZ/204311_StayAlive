@@ -14,7 +14,6 @@ class EmergencyCallScreen extends StatelessWidget {
         Color(0xFF10B981); // Adjusted slightly for a nice green
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: const CustomAppBar(), // Back button only
       body: NotificationListener<ScrollUpdateNotification>(
         onNotification: (notification) {
@@ -35,12 +34,12 @@ class EmergencyCallScreen extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: primaryGreen, width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -135,8 +134,7 @@ class EmergencyCallScreen extends StatelessWidget {
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               const SizedBox(height: 8),
-              const Icon(Icons.keyboard_double_arrow_down,
-                  size: 40, color: Colors.black),
+              const Icon(Icons.keyboard_double_arrow_down, size: 40),
               const SizedBox(height: 20),
             ],
           ),

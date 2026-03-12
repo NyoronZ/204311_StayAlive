@@ -114,12 +114,10 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
     if (currentPhase == CprPhase.breathing) secondsRemaining = 0;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black54),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -154,14 +152,12 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                                     Text(lang.translate('cpr', 'push_depth'),
                                         style: const TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black54)),
+                                            fontWeight: FontWeight.w600)),
                                     const SizedBox(height: 4),
                                     Text(_getDepthInfo(lang),
                                         style: const TextStyle(
                                             fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black87)),
+                                            fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                         ),
@@ -176,7 +172,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                         maintainAnimation: true,
                         maintainState: true,
                         child: ShadowCard(
-                          color: Colors.white,
+                          color: Theme.of(context).cardColor,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 18, horizontal: 15),
@@ -215,8 +211,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                                 Center(
                                   child: Text(
                                     "${30 - compressions} ${lang.translate('cpr', 'until_breath')}",
-                                    style: const TextStyle(
-                                        fontSize: 11, color: Colors.black54),
+                                    style: const TextStyle(fontSize: 11),
                                   ),
                                 ),
                               ],
@@ -375,7 +370,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-                color: color.withOpacity(0.4),
+                color: color.withValues(alpha: 0.4),
                 blurRadius: 10,
                 offset: const Offset(0, 5))
           ],

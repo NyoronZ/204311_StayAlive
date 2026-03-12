@@ -80,16 +80,15 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
+    final brightness = Theme.of(context).brightness;
     double textScaleRatio = MediaQuery.of(context).size.width / 375.0;
     final ageData = _getAgeData(lang, widget.ageGroup);
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black54),
+            icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () => Navigator.pop(context)),
       ),
       body: SafeArea(
@@ -100,7 +99,7 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: primaryGreen, width: 2)),
                   child: Column(
@@ -160,10 +159,15 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                               Text(ageData['subtitle'],
                                   style: TextStyle(
                                       fontSize: 14 * textScaleRatio,
-                                      color: Colors.black87)),
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.color)),
                               const SizedBox(height: 20),
                               ShadowCard(
-                                color: const Color(0xFFC6F6D5),
+                                color: brightness == Brightness.dark
+                                    ? const Color(0xFF2E7D32)
+                                    : const Color(0xFFC6F6D5),
                                 child: Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
@@ -183,10 +187,8 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                                             Expanded(
                                                 child: Text(text,
                                                     style: TextStyle(
-                                                        fontSize:
-                                                            15 * textScaleRatio,
-                                                        color:
-                                                            Colors.black87))),
+                                                        fontSize: 15 *
+                                                            textScaleRatio))),
                                           ],
                                         ),
                                       );
@@ -243,7 +245,7 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                  color: color.withOpacity(0.3),
+                  color: color.withValues(alpha: 0.3),
                   blurRadius: 10,
                   offset: const Offset(0, 5))
             ]),

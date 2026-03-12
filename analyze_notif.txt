@@ -1,0 +1,9 @@
+﻿Analyzing notification_service.dart...
+
+  error - notification_service.dart:33:43 - The named parameter 'settings' is required, but there's no corresponding argument. Try adding the required argument. - missing_required_argument
+  error - notification_service.dart:33:54 - Too many positional arguments: 0 expected, but 1 found. Try removing the extra positional arguments, or specifying the name for named arguments. - extra_positional_arguments_could_be_named
+  error - notification_service.dart:64:43 - The named parameter 'id' is required, but there's no corresponding argument. Try adding the required argument. - missing_required_argument
+  error - notification_service.dart:65:7 - Too many positional arguments: 0 expected, but 4 found. Try removing the extra positional arguments, or specifying the name for named arguments. - extra_positional_arguments_could_be_named
+warning - notification_service.dart:2:8 - Unused import: 'package:flutter/material.dart'. Try removing the import directive. - unused_import
+
+5 issues found.

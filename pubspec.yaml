@@ -15,6 +15,7 @@ dependencies:
   provider: ^6.1.1
   audioplayers: ^6.5.1
   url_launcher: ^6.3.2
+  flutter_local_notifications: ^21.0.0
   # google_fonts: ^6.1.0 
 
 dev_dependencies:
@@ -27,7 +28,13 @@ flutter:
   
   assets:
     - assets/images/stayalive_logo.png
+    - assets/images/stayalive_logo_dark.png
+    - assets/images/cpr.png
+    - assets/images/breath.png
+    - assets/images/cpr_infant.png
+    - assets/images/breath_infant.png
     - assets/audio/
+    - assets/images/people_in_med.png
   #   - assets/images/heartbeat.png
 
   # fonts:
