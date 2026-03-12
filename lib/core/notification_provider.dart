@@ -21,8 +21,8 @@ class NotificationProvider extends ChangeNotifier {
     if (value) {
       // Re-trigger permission request if turning ON
       final granted = await NotificationService().requestPermissions();
+      // Permission denied, don't update state to true
       if (!granted) {
-        // Permission denied, don't update state to true
         _notificationsEnabled = false;
         notifyListeners();
         return;

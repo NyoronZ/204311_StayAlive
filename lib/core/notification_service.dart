@@ -71,9 +71,9 @@ class NotificationService {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final notificationsEnabled = prefs.getBool('notificationsEnabled') ?? true;
-
+    // Do not show notification
     if (!notificationsEnabled) {
-      return; // Do not show notification
+      return;
     }
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(

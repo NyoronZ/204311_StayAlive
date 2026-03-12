@@ -271,6 +271,7 @@ class _SymptomCheckCardState extends State<SymptomCheckCard> {
     );
   }
 
+  // CPR Required Card show selected symptoms informations
   Widget _buildCprRequiredCard(LanguageProvider languageProvider) {
     const mainGreen = Color(0xFF10B981);
 
