@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../components/shadow_card.dart';
+import '../../components/custom_app_bar.dart';
 
 class CprSuccessScreen extends StatelessWidget {
   final String ageGroup;
@@ -29,12 +30,8 @@ class CprSuccessScreen extends StatelessWidget {
     final Color lightGreen = const Color.fromARGB(255, 221, 255, 232);
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-            icon: const Icon(Icons.close, size: 30),
-            onPressed: () =>
-                Navigator.of(context).popUntil((route) => route.isFirst)),
+      appBar: CustomAppBar(
+        title: lang.translate('cpr', 'success_title'),
       ),
       body: SafeArea(
         child: Padding(

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../core/notification_provider.dart';
 import '../../core/theme_provider.dart';
-import '../../widgets/custom_app_bar.dart';
+import '../../components/custom_app_bar.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

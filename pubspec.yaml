@@ -26,6 +26,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -39,6 +40,7 @@ flutter:
     - assets/images/breath_infant.png
     - assets/audio/
     - assets/images/people_in_med.png
+    - assets/images/cropped_app_logo.png
   #   - assets/images/heartbeat.png
 
   # fonts:
@@ -47,3 +49,8 @@ flutter:
   #       - asset: assets/fonts/Roboto-Regular.ttf
   #       - asset: assets/fonts/Roboto-Bold.ttf
   #         weight: 700
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_logo2.png"

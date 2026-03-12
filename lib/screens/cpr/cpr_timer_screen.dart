@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import 'cpr_success_screen.dart';
 import '../../components/shadow_card.dart';
+import '../../components/custom_app_bar.dart';
 
 enum CprPhase { ready, countdown, compressing, breathing }
 
@@ -115,13 +116,7 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
     if (currentPhase == CprPhase.breathing) secondsRemaining = 0;
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      appBar: CustomAppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -202,9 +197,11 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                   child: LinearProgressIndicator(
                                     value: compressions / 30,
-                                    backgroundColor: Theme.of(context).brightness == Brightness.dark
-                                        ? darkGrey
-                                        : lightGrey,
+                                    backgroundColor:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? darkGrey
+                                            : lightGrey,
                                     valueColor: AlwaysStoppedAnimation<Color>(
                                         primaryGreen),
                                     minHeight: 12,
