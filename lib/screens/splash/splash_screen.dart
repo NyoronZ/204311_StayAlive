@@ -21,7 +21,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future<void> _loadComponents() async {
-    final privacyProvider = Provider.of<PrivacyProvider>(context, listen: false);
+    final privacyProvider =
+        Provider.of<PrivacyProvider>(context, listen: false);
     final prefs = await SharedPreferences.getInstance();
     final hasSeenTutorial = prefs.getBool('hasSeenTutorial') ?? false;
 
@@ -57,7 +58,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // heart icon
-            Icon(Icons.favorite, size: 120, color: Colors.white),
+            // Icon(Icons.favorite, size: 120, color: Colors.white),
+            Image(
+              image: AssetImage('assets/images/cropped_app_logo.png'),
+              height: 140,
+              width: 140,
+            ),
             SizedBox(height: 60),
             // loading spinner
             CircularProgressIndicator(

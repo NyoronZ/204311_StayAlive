@@ -4,6 +4,7 @@ import '../../core/language_provider.dart';
 import '../../components/custom_app_bar.dart';
 import '../../components/emergency_call_button.dart';
 import '../../components/scroll_navigator.dart';
+import '../../components/custom_app_bar.dart';
 
 class EmergencyCallScreen extends StatelessWidget {
   const EmergencyCallScreen({super.key});
@@ -14,13 +15,14 @@ class EmergencyCallScreen extends StatelessWidget {
     const Color primaryGreen = Color(0xFF10B981);
 
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(),
       body: ScrollNavigatorWrapper(
         onNavigate: () {
           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         },
         child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics()),
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: Column(
             children: [
@@ -30,25 +32,34 @@ class EmergencyCallScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: primaryGreen, width: 2),
                   boxShadow: [
-                    BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4)),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       decoration: const BoxDecoration(
                         color: primaryGreen,
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(10)),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.airport_shuttle_outlined, color: Colors.white, size: 28),
+                          const Icon(Icons.airport_shuttle_outlined,
+                              color: Colors.white, size: 28),
                           const SizedBox(width: 12),
                           Text(
                             lang.translate('emergency_call', 'title'),
-                            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -58,20 +69,32 @@ class EmergencyCallScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(lang.translate('emergency_call', 'medical_th'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          Text(lang.translate('emergency_call', 'medical_th'),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16)),
                           const SizedBox(height: 8),
-                          _buildListItem(lang.translate('emergency_call', 'med_1196')),
-                          _buildListItem(lang.translate('emergency_call', 'med_1554')),
-                          _buildListItem(lang.translate('emergency_call', 'med_1669')),
-                          _buildListItem(lang.translate('emergency_call', 'med_1691')),
+                          _buildListItem(
+                              lang.translate('emergency_call', 'med_1196')),
+                          _buildListItem(
+                              lang.translate('emergency_call', 'med_1554')),
+                          _buildListItem(
+                              lang.translate('emergency_call', 'med_1669')),
+                          _buildListItem(
+                              lang.translate('emergency_call', 'med_1691')),
                           const SizedBox(height: 16),
-                          Text(lang.translate('emergency_call', 'others'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          Text(lang.translate('emergency_call', 'others'),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16)),
                           const SizedBox(height: 8),
-                          _buildListItem(lang.translate('emergency_call', 'other_191')),
-                          _buildListItem(lang.translate('emergency_call', 'other_199')),
-                          _buildListItem(lang.translate('emergency_call', 'other_1193')),
+                          _buildListItem(
+                              lang.translate('emergency_call', 'other_191')),
+                          _buildListItem(
+                              lang.translate('emergency_call', 'other_199')),
+                          _buildListItem(
+                              lang.translate('emergency_call', 'other_1193')),
                           const SizedBox(height: 24),
-                          const Center(child: EmergencyCallButton(phoneNumber: '0000')),
+                          const Center(
+                              child: EmergencyCallButton(phoneNumber: '0000')),
                         ],
                       ),
                     ),
@@ -99,7 +122,8 @@ class EmergencyCallScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("• ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          const Text("• ",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           Expanded(child: Text(text, style: const TextStyle(fontSize: 14))),
         ],
       ),

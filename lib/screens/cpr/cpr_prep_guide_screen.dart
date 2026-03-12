@@ -4,6 +4,7 @@ import '../../core/language_provider.dart';
 import '../../components/shadow_card.dart';
 import 'cpr_timer_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../components/custom_app_bar.dart';
 
 class CprPrepGuideScreen extends StatefulWidget {
   final String ageGroup;
@@ -32,7 +33,7 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.callEmergency) _makePhoneCall('1669');
+    if (widget.callEmergency) _makePhoneCall('0000');
   }
 
   Map<String, dynamic> _getAgeData(LanguageProvider lang, String age) {
@@ -88,11 +89,8 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
     final ageData = _getAgeData(lang, widget.ageGroup);
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () => Navigator.pop(context)),
+      appBar: CustomAppBar(
+        title: lang.translate('cpr', 'cpr_title'),
       ),
       body: SafeArea(
         child: Padding(
@@ -120,14 +118,16 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                             Container(
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).brightness == Brightness.dark
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
                                         ? Colors.white.withOpacity(0.1)
-                                        : Colors.white, 
+                                        : Colors.white,
                                     shape: BoxShape.circle),
                                 child: Icon(Icons.priority_high,
-                                    color: Theme.of(context).brightness == Brightness.dark
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
                                         ? Colors.white
-                                        : primaryGreen, 
+                                        : primaryGreen,
                                     size: 24)),
                             const SizedBox(width: 15),
                             Text(lang.translate('cpr', 'remember'),
@@ -149,7 +149,8 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                                 width: 70,
                                 height: 70,
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).brightness == Brightness.dark
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
                                         ? ageData['darkColor']
                                         : ageData['color'],
                                     shape: BoxShape.circle,

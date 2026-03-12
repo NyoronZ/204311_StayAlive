@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../components/shadow_card.dart';
 import 'cpr_prep_guide_screen.dart';
+import '../../components/custom_app_bar.dart';
 
 class CprSelectAgeScreen extends StatefulWidget {
   const CprSelectAgeScreen({super.key});
@@ -22,12 +23,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
     double textScaleRatio = MediaQuery.of(context).size.width / 375.0;
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => Navigator.pop(context),
-        ),
+      appBar: CustomAppBar(
+        title: lang.translate('cpr', 'cpr_title'),
       ),
       body: SafeArea(
         child: Padding(
@@ -82,7 +79,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'infant'),
                                 subtitle: lang.translate('cpr', 'infant_sub'),
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? const Color(0xFF1E3A24)
                                     : const Color(0xFFBFF6C3),
                                 emoji: '👶',
@@ -95,7 +93,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'child'),
                                 subtitle: lang.translate('cpr', 'child_sub'),
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? const Color(0xFF1E2E3D)
                                     : const Color(0xFFC4E4FF),
                                 emoji: '👦',
@@ -108,7 +107,8 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                               ShadowCard(
                                 title: lang.translate('cpr', 'adult'),
                                 subtitle: lang.translate('cpr', 'adult_sub'),
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? const Color(0xFF3D2E1E)
                                     : const Color(0xFFFFE4C4),
                                 emoji: '👨',

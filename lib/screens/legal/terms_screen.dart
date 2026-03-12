@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
-import '../../widgets/custom_app_bar.dart';
+import '../../components/custom_app_bar.dart';
 
 class TermsScreen extends StatelessWidget {
   const TermsScreen({super.key});

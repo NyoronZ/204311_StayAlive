@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import '../../core/language_provider.dart';
 import '../../core/privacy_provider.dart';
-import '../../widgets/custom_app_bar.dart';
+import '../../components/custom_app_bar.dart';
 
 class PrivacySettingsScreen extends StatelessWidget {
   const PrivacySettingsScreen({super.key});
