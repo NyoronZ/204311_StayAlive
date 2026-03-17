@@ -1,9 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
-import 'emergency_call_button.dart';
+import '../../components/emergency_call_button.dart';
 
+/*
+ * File: symptom_check_card.dart
+ * Description: Displays an interactive symptom-checking card.
+ *              Evaluates selected symptoms to determine if CPR is needed.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - EmergencyCallButton
+ *
+ * Lifecycle:
+ * - Created as part of the Home screen widget tree
+ * - Disposed when the parent screen is popped
+ *
+ * Author: Rattanun Deewongsai / Stayalive
+ * Course: Mobile Application Development Framework
+ */
+
+/// Displays an interactive symptom-checking card.
+///
+/// Fields:
+/// - (stateless) — all state is held in [_SymptomCheckCardState]
+///
+/// Usage:
+/// - Used on the Home screen for symptom selection
+/// - Shows a CPR card and emergency call button when needed
 class SymptomCheckCard extends StatefulWidget {
+  /// Creates a [SymptomCheckCard].
   const SymptomCheckCard({super.key});
 
   @override
@@ -25,10 +51,21 @@ class _SymptomCheckCardState extends State<SymptomCheckCard> {
     'not_breathing': false,
   };
 
+  /// Builds the symptom-check card UI.
+  ///
+  /// Computes CPR-required flags from [_cprConditions] and conditionally
+  /// renders a symptom summary card, a CPR start card, and an emergency
+  /// call button below the symptom grid.
+  ///
+  /// Side effects:
+  /// - Rebuilds on every [setState] triggered by symptom toggles
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);
     const mainGreen = Color(0xFF10B981);
+
+    // CPR condition flags — each flag is true when the symptom combination
+    // meets a clinical scenario that requires CPR.
 
     // Drowning AND Not Breathing
     bool dnb = _cprConditions['drowning']! && _cprConditions['not_breathing']!;
@@ -67,11 +104,13 @@ class _SymptomCheckCardState extends State<SymptomCheckCard> {
     bool gen =
         _cprConditions['unconsciousness']! && _cprConditions['not_breathing']!;
 
+    // True when any CPR-required condition is met
     bool needsCpr =
         dnb || hnb || donb || eun || cun || stun || anb || tnb || gen;
 
     return Column(
       children: [
+        // Main symptom-check card container
         Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
@@ -173,6 +212,8 @@ class _SymptomCheckCardState extends State<SymptomCheckCard> {
             ],
           ),
         ),
+
+        // Conditionally show CPR required info and start cards
         if (needsCpr) const SizedBox(height: 16),
         if (needsCpr) _buildCprRequiredCard(languageProvider),
         if (needsCpr) const SizedBox(height: 16),
