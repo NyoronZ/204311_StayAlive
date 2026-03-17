@@ -1,8 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../core/language_provider.dart';
-import '../../components/emergency_call_button.dart';
-
 /*
  * File: symptom_check_card.dart
  * Description: Displays an interactive symptom-checking card.
@@ -19,6 +14,12 @@ import '../../components/emergency_call_button.dart';
  * Author: Rattanun Deewongsai / Stayalive
  * Course: Mobile Application Development Framework
  */
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/language_provider.dart';
+import '../../components/emergency_call_button.dart';
+
 
 /// Displays an interactive symptom-checking card.
 ///
