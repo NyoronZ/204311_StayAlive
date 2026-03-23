@@ -1,10 +1,38 @@
+/*
+ * File: tutorial.dart
+ * Description: Full-screen tutorial flow shown on first app launch.
+ *              Guides the user through app features across multiple pages,
+ *              with a CPR reference page embedded at position 5.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - HowToCprScreen
+ * - SharedPreferences (to persist tutorial completion state)
+ *
+ * Lifecycle:
+ * - Created on first launch before the Home screen
+ * - Disposed after the user completes or skips the tutorial
+ *
+ * Author: Rattanun Deewongsai / Stayalive
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/language_provider.dart';
 import 'how_to_cpr.dart';
 
+/// Full-screen tutorial displayed on the first app launch.
+///
+/// Fields:
+/// - (stateless) — all state is held in [_TutorialScreenState]
+///
+/// Usage:
+/// - Pushed as the initial route when [hasSeenTutorial] is false
+/// - Navigates to Home and clears the stack on completion or skip
 class TutorialScreen extends StatefulWidget {
+  /// Creates a [TutorialScreen].
   const TutorialScreen({super.key});
 
   @override
@@ -15,6 +43,14 @@ class _TutorialScreenState extends State<TutorialScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
+  /// Builds the tutorial UI with a paged layout.
+  ///
+  /// Renders a skip button, a [PageView] of tutorial slides (including
+  /// [HowToCprScreen] at index 5), pagination dots, and a Next/Start button.
+  ///
+  /// Side effects:
+  /// - Writes [hasSeenTutorial] to SharedPreferences on skip or completion
+  /// - Navigates to Home and clears the Navigator stack when done
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

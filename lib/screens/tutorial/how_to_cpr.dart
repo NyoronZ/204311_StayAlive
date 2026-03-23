@@ -1,10 +1,41 @@
+/*
+ * File: how_to_cpr.dart
+ * Description: A scrollable reference screen explaining when and how
+ *              to perform CPR for both adults and children/infants.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ *
+ * Lifecycle:
+ * - Embedded inside TutorialScreen's PageView at index 5
+ * - Disposed when the tutorial flow is completed or skipped
+ *
+ * Author: Rattanun Deewongsai / Stayalive
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 
+/// A scrollable CPR reference screen embedded in the tutorial flow.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Rendered by [TutorialScreen] at page index 5
+/// - Displays when-to-perform and when-not-to-perform CPR info,
+///   followed by step-by-step adult and child/infant CPR guides
 class HowToCprScreen extends StatelessWidget {
+  /// Creates a [HowToCprScreen].
   const HowToCprScreen({super.key});
 
+  /// Builds the CPR reference content as a scrollable [ListView].
+  ///
+  /// Renders two info cards (when/when-not to perform CPR), followed
+  /// by step-by-step sections for adult CPR and child/infant CPR,
+  /// all sourced from [LanguageProvider] for localisation.
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

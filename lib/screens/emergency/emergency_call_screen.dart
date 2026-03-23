@@ -4,7 +4,6 @@ import '../../core/language_provider.dart';
 import '../../components/custom_app_bar.dart';
 import '../../components/emergency_call_button.dart';
 import '../../components/scroll_navigator.dart';
-import '../../components/custom_app_bar.dart';
 
 class EmergencyCallScreen extends StatelessWidget {
   const EmergencyCallScreen({super.key});
