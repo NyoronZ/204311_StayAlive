@@ -134,7 +134,6 @@ class EmergencyCallScreen extends StatelessWidget {
 
               const SizedBox(height: 48), // Spacing
 
-              // 👇 เปลี่ยนมาใช้ UI Component แทน
               ScrollDownIndicator(
                 text: lang.translate('emergency_call', 'scroll_down'),
               ),
@@ -145,7 +144,7 @@ class EmergencyCallScreen extends StatelessWidget {
     );
   }
 
-  // (ส่วน _buildListItem คงไว้เหมือนเดิม)
+  // Builds an item list as bullet points
   Widget _buildListItem(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6.0, left: 8.0),

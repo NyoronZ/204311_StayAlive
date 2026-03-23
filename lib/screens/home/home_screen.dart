@@ -1,15 +1,18 @@
 /*
  * File: home_screen.dart
- * Description: The main hub screen of the StayAlive app.
- *              Provides quick access to CPR start, emergency tools,
- *              and educational features via a menu-button grid.
+ * Description: The main hub screen of the application.
  *
  * Dependencies:
- * - LanguageProvider
+ * - Provider (State management)
+ * - LanguageProvider (Localization)
  *
  * Lifecycle:
- * - Pushed as the root screen after the tutorial/splash flow
+ * - Pushed as the root screen after the tutorial or splash flow
  * - Remains in the stack until the app is closed
+ *
+ * Responsibilities:
+ * - Provides quick access to CPR start, emergency tools, and educational features
+ * - Serves as the primary navigation menu
  *
  * Author: Nohimitsu
  * Course: Mobile Application Development Framework
@@ -19,21 +22,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 
-/// The main home screen and navigation hub of the StayAlive app.
-///
-/// Fields:
-/// - (stateless) — no mutable state
-///
-/// Usage:
-/// - Root screen shown after the splash/tutorial flow completes
-/// - Provides the main Start CPR button, Emergency section,
-///   and Others section with quick-access menu buttons
+/// The main home screen and navigation hub of the application.
 class HomeScreen extends StatelessWidget {
   /// Creates a [HomeScreen].
   const HomeScreen({super.key});
 
-  /// Builds the home screen with the app logo, Start CPR button,
-  /// Emergency menu, and Others menu laid out in a scrollable column.
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
@@ -57,7 +50,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // --- Header Section ---
+            // Header Section
             Center(
               child: Image.asset(
                 Theme.of(context).brightness == Brightness.dark
@@ -69,7 +62,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // --- START Button ---
+            // START Button
             InkWell(
               onTap: () => Navigator.pushNamed(context, '/start'),
               borderRadius: BorderRadius.circular(25),
@@ -111,10 +104,10 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
 
-            // --- Section: Emergency ---
+            // Section: Emergency
             _buildSectionTitle(lang.translate('home', 'emergency')),
             const SizedBox(height: 15),
-            // ใช้ Row เหมือนเดิม เพื่อบังคับให้อยู่บรรทัดเดียวกัน
+            // Uses Row to keep items aligned on the same line
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,7 +134,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
 
-            // --- Section: Others ---
+            // Section: Others
             _buildSectionTitle(lang.translate('home', 'others')),
             const SizedBox(height: 15),
             Row(
@@ -160,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                   isSolid: false,
                   onTap: () => Navigator.pushNamed(context, '/tutorial'),
                 ),
-                // 🌟 ใส่ "กล่องล่องหน" กว้าง 85px เพื่อดึงระยะให้ปุ่มอื่นตรงกับแถวบนเป๊ะๆ
+                // Inserts an invisible box of 85px width to align buttons with the row above
                 const SizedBox(width: 85),
               ],
             ),
@@ -171,6 +164,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // Builds the title for each section.
   Widget _buildSectionTitle(String title) {
     return Row(
       children: [
@@ -184,7 +178,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // 🌟 ปรับ Widget ปุ่มให้ถูกล็อกความกว้างไว้ที่ 85px เสมอ (กันตัวหนังสือดันกล่องจนเบี้ยว)
+  // Locks button width to 85px to prevent text from breaking the layout.
   Widget _buildMenuButton({
     required String label,
     required IconData icon,
@@ -195,7 +189,7 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 85, // ล็อกความกว้างรวมของปุ่ม
+        width: 85, // Locks total button width
         child: Column(
           children: [
             Container(

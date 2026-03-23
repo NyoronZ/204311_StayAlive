@@ -190,7 +190,6 @@ class _CprSelectAgeScreenState extends State<CprSelectAgeScreen> {
                   ),
                 ),
               ),
-              // 🌟 เว้นระยะ 53px เพื่อตั้งศูนย์ให้ปุ่มตรงกับหน้า Timer เป๊ะๆ
               const SizedBox(height: 53),
             ],
           ),

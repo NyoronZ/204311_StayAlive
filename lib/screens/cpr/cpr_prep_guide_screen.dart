@@ -232,7 +232,6 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
                   ),
                 ),
               ),
-              // 🌟 เว้นระยะ 53px เพื่อตั้งศูนย์ให้ตรงกับหน้า Timer
               const SizedBox(height: 53),
             ],
           ),

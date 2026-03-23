@@ -132,7 +132,6 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                       _buildTimerCircle(secondsRemaining),
                       const SizedBox(height: 35),
 
-                      // 🌟 ส่วน Information เอา ShadowCard ออกตามที่คุณชอบ (คงความสูงไว้ 65px)
                       SizedBox(
                         height: 65,
                         child: Center(
@@ -160,7 +159,6 @@ class _CprTimerScreenState extends State<CprTimerScreen> {
                       ),
                       const SizedBox(height: 15),
 
-                      // 🌟 ส่วน Progress Bar คง ShadowCard ไว้
                       Visibility(
                         visible: currentPhase != CprPhase.ready &&
                             currentPhase != CprPhase.countdown,
