@@ -3,12 +3,11 @@
  * Description: Thai (TH) locale string and data content for the StayAlive app.
  *              Imported by LanguageProvider to build the content map.
  *
- * Author: Rattanun Deewongsai
+ * Author: Nohimitsu
  * Course: Mobile Application Development Framework
  */
 
 /// All Thai locale content used by [LanguageProvider].
-/// Fill in each value with the appropriate Thai translation.
 const Map<String, dynamic> thContent = {
   'common': {
     'skip': 'ข้าม >',

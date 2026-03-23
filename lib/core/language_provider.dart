@@ -47,18 +47,19 @@ class LanguageProvider extends ChangeNotifier {
   Future<void> _loadSavedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // ดึงค่าภาษาที่เคยบันทึกไว้
+    // Get the saved language.
     final savedLanguage = prefs.getString('selected_language');
 
     if (savedLanguage != null) {
-      // ถ้าผู้ใช้เคยเลือกภาษาไว้แล้ว ให้ใช้ภาษานั้น
+      // If the user has already selected a language, use that language.
       _currentLocale = Locale(savedLanguage);
     } else {
-      // ถ้ายังไม่เคยเลือก (เข้าแอปครั้งแรก) ให้ดึงภาษาจากระบบเครื่อง
+      // If the user has not selected a language yet (first time opening the app), 
+      // get the language from the system.
       final systemLanguageCode =
           ui.PlatformDispatcher.instance.locale.languageCode;
 
-      // ถ้าเครื่องเป็นภาษาไทย ให้ใช้ 'th' นอกนั้นให้บังคับเป็น 'en'
+      // If the system language is Thai, use 'th', otherwise default to 'en'.
       if (systemLanguageCode == 'th') {
         _currentLocale = const Locale('th');
       } else {
