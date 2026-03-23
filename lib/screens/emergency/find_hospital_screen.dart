@@ -1,17 +1,43 @@
+/*
+ * File: find_hospital_screen.dart
+ * Description: Displays a screen to find nearby hospitals using the device's GPS
+ * location, showing results on an interactive map.
+ *
+ * Dependencies:
+ * - geolocator (Location permissions and state)
+ * - flutter_map & latlong2 (Map rendering)
+ * - Provider (State management)
+ * - LanguageProvider & PrivacyProvider (Global state)
+ * - CustomAppBar (UI Component)
+ * - HospitalService (Business logic and network calls)
+ *
+ * Lifecycle:
+ * - Created via Navigator
+ * - Disposed when user navigates away
+ *
+ * Responsibilities:
+ * - Requests and manages location permissions UI
+ * - Manages UI state during data fetching
+ * - Renders the interactive map and hospital search list
+ *
+ * Author: Kitichai Fanprom
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../core/language_provider.dart';
 import '../../core/privacy_provider.dart';
 import '../../components/custom_app_bar.dart';
+import '../../core/hospital_service.dart';
 
+/// A screen that helps users locate nearby hospitals based on their current GPS position.
 class FindHospitalScreen extends StatefulWidget {
+  /// Creates the find hospital screen.
   const FindHospitalScreen({super.key});
 
   @override
@@ -34,15 +60,13 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
   final TextEditingController _searchController = TextEditingController();
   final MapController _mapController = MapController();
 
-  static List<Map<String, dynamic>>? _cachedHospitals;
-  static Position? _lastFetchPosition;
-
   @override
   void initState() {
     super.initState();
     _checkLocationStatus();
   }
 
+  // Verifies if the location service is enabled and permissions are granted.
   Future<void> _checkLocationStatus() async {
     setState(() => _isLoading = true);
     final privacyProvider =
@@ -53,7 +77,6 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     _hasPermission = (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse);
 
-    // Check both OS permissions and app-level privacy setting
     if (_isGpsEnabled && _hasPermission && privacyProvider.locationEnabled) {
       await _fetchLocationAndHospitals();
     } else {
@@ -61,6 +84,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     }
   }
 
+  // Prompts the user to grant location permissions and enable GPS settings.
   Future<void> _requestPermissionAndEnableGps() async {
     final lang = Provider.of<LanguageProvider>(context, listen: false);
     setState(() {
@@ -96,7 +120,6 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
         permission == LocationPermission.whileInUse);
 
     if (_hasPermission) {
-      // If OS permission is granted, also enable it in app-level privacy settings
       await privacyProvider.toggleLocation(true);
     }
 
@@ -107,12 +130,14 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     }
   }
 
+  // Retrieves the current location and calls the service to fetch hospitals.
   Future<void> _fetchLocationAndHospitals() async {
     final lang = Provider.of<LanguageProvider>(context, listen: false);
     setState(() {
       _isLoading = true;
       _errorMessage = null;
     });
+
     try {
       _currentPosition = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,
@@ -128,101 +153,25 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
       }
     }
 
-    if (_cachedHospitals != null && _lastFetchPosition != null) {
-      final distanceDiff = Geolocator.distanceBetween(
-          _currentPosition!.latitude,
-          _currentPosition!.longitude,
-          _lastFetchPosition!.latitude,
-          _lastFetchPosition!.longitude);
-
-      if (distanceDiff < 100) {
-        setState(() {
-          _hospitals = _cachedHospitals!;
-          _filteredHospitals = _cachedHospitals!;
-          _isLoading = false;
-        });
-        return;
-      }
-    }
-
     try {
-      final lat = _currentPosition!.latitude;
-      final lon = _currentPosition!.longitude;
-      final radius = 10000;
-
-      final query = '''
-        [out:json][timeout:25];
-        (
-          node["amenity"="hospital"](around:$radius,$lat,$lon);
-          way["amenity"="hospital"](around:$radius,$lat,$lon);
-        );
-        out center;
-      ''';
-
-      final url = Uri.parse(
-          'https://overpass-api.de/api/interpreter?data=${Uri.encodeComponent(query)}');
-      final response = await http.get(url).timeout(const Duration(seconds: 15));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(utf8.decode(response.bodyBytes));
-        final elements = data['elements'] as List;
-        List<Map<String, dynamic>> fetchedHospitals = [];
-
-        for (var el in elements) {
-          final tags = el['tags'] ?? {};
-          final nameTh = tags['name:th'] ?? tags['name'] ?? '';
-          final nameEn = tags['name:en'] ?? tags['name'] ?? '';
-          if (nameTh.isEmpty && nameEn.isEmpty) continue;
-
-          final nameLower = (nameTh + nameEn).toLowerCase();
-          if (nameLower.contains('คลินิก') ||
-              nameLower.contains('clinic') ||
-              nameLower.contains('ทันตกรรม') ||
-              nameLower.contains('dental') ||
-              nameLower.contains('สัตว์') ||
-              nameLower.contains('animal') ||
-              nameLower.contains('ความงาม') ||
-              nameLower.contains('ศัลยกรรม')) {
-            continue;
-          }
-
-          final hLat = el['lat'] ?? el['center']['lat'];
-          final hLon = el['lon'] ?? el['center']['lon'];
-          final distanceKm =
-              Geolocator.distanceBetween(lat, lon, hLat, hLon) / 1000;
-
-          fetchedHospitals.add({
-            'name': nameTh.isNotEmpty ? nameTh : nameEn,
-            'name_en': nameEn,
-            'lat': hLat,
-            'lon': hLon,
-            'distance': distanceKm,
-          });
-        }
-        fetchedHospitals.sort((a, b) => a['distance'].compareTo(b['distance']));
-
-        _cachedHospitals = fetchedHospitals;
-        _lastFetchPosition = _currentPosition;
-
-        setState(() {
-          _hospitals = fetchedHospitals;
-          _filteredHospitals = fetchedHospitals;
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _errorMessage = lang.translate('find_hospital_sec', 'server_error');
-          _isLoading = false;
-        });
-      }
+      final fetchedHospitals =
+          await HospitalService.fetchNearbyHospitals(_currentPosition!);
+      setState(() {
+        _hospitals = fetchedHospitals;
+        _filteredHospitals = fetchedHospitals;
+        _isLoading = false;
+      });
     } catch (e) {
       setState(() {
-        _errorMessage = lang.translate('find_hospital_sec', 'connection_error');
+        _errorMessage = e.toString().contains('server_error')
+            ? lang.translate('find_hospital_sec', 'server_error')
+            : lang.translate('find_hospital_sec', 'connection_error');
         _isLoading = false;
       });
     }
   }
 
+  // Filters the hospital list based on the user's search query.
   void _filterSearch(String query) {
     final lowerQuery = query.toLowerCase();
     setState(() {
@@ -234,15 +183,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     });
   }
 
-  Future<void> _openRealMap(double lat, double lon) async {
-    final String googleMapsUrl =
-        'https://www.google.com/maps/search/?api=1&query=$lat,$lon';
-    final Uri uri = Uri.parse(googleMapsUrl);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
+  // Handles back navigation logic, clearing the selected hospital if one is active.
   void _handleBack() {
     if (_selectedHospital != null) {
       setState(() => _selectedHospital = null);
@@ -251,6 +192,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     }
   }
 
+  // Adjusts the map camera to fit both the user's location and the selected hospital.
   void _fitMapBounds(Map<String, dynamic> hospital) {
     if (_currentPosition == null) return;
 
@@ -279,7 +221,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: CustomAppBar(),
+        appBar: const CustomAppBar(),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(
@@ -332,6 +274,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     );
   }
 
+  // Builds the main content area depending on loading, error, or data states.
   Widget _buildBodyContent(LanguageProvider lang) {
     if (_isLoading) {
       return Center(
@@ -432,6 +375,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     return _buildSearchList(lang);
   }
 
+  // Builds the search bar and the list of nearby hospitals.
   Widget _buildSearchList(LanguageProvider lang) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -492,7 +436,6 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
                     itemBuilder: (context, index) {
                       final hospital = _filteredHospitals[index];
                       return GestureDetector(
-                        // 🌟 แก้ไขตรงนี้: สั่งให้กล้องจัดเฟรมใหม่ทุกครั้งที่กดเลือกจากลิสต์
                         onTap: () {
                           setState(() {
                             FocusScope.of(context).unfocus();
@@ -549,6 +492,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
     );
   }
 
+  // Builds the view displaying the selected hospital on the map.
   Widget _buildDestinationView(LanguageProvider lang) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -656,7 +600,7 @@ class _FindHospitalScreenState extends State<FindHospitalScreen> {
           ),
           const SizedBox(height: 15),
           GestureDetector(
-            onTap: () => _openRealMap(
+            onTap: () => HospitalService.openRealMap(
                 _selectedHospital!['lat'], _selectedHospital!['lon']),
             child: Container(
               width: double.infinity,

@@ -7,13 +7,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:stayalive/core/language_provider.dart';
+import 'package:stayalive/core/notification_provider.dart';
+import 'package:stayalive/core/privacy_provider.dart';
+import 'package:stayalive/core/theme_provider.dart';
 
 import 'package:stayalive/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const StayAliveApp());
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => LanguageProvider()),
+          ChangeNotifierProvider(create: (context) => NotificationProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeProvider()),
+          ChangeNotifierProvider(create: (context) => PrivacyProvider()),
+        ],
+        child: const StayAliveApp(isDarkMode: false),
+      ),
+    );
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

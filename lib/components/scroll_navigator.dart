@@ -1,10 +1,33 @@
+/*
+ * File: scroll_navigator.dart
+ * Description: Provides a wrapper and UI indicators for scroll-to-navigate functionality.
+ *
+ * Dependencies:
+ * - Flutter Material library
+ *
+ * Lifecycle:
+ * - Created dynamically within scrollable views
+ * - Disposed when the parent view is removed
+ *
+ * Responsibilities:
+ * - Listens to scroll events to trigger navigation on overscroll
+ * - Prevents duplicate navigation triggers during rapid scrolling
+ *
+ * Author: Kitichai Fanprom
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 
-// --- 1. ตัวครอบ (Wrapper) สำหรับจัดการ Logic ป้องกันการสั่นและเปลี่ยนหน้า ---
+/// A wrapper that handles overscroll logic to prevent jitter and duplicate navigation.
 class ScrollNavigatorWrapper extends StatefulWidget {
+  /// The widget below this widget in the tree.
   final Widget child;
+
+  /// The callback to execute when the overscroll threshold is reached.
   final VoidCallback onNavigate;
 
+  /// Creates a [ScrollNavigatorWrapper] with the given child and navigation callback.
   const ScrollNavigatorWrapper({
     super.key,
     required this.child,
@@ -16,22 +39,25 @@ class ScrollNavigatorWrapper extends StatefulWidget {
 }
 
 class _ScrollNavigatorWrapperState extends State<ScrollNavigatorWrapper> {
-  bool _isNavigating = false; // ตัวแปรล็อคสถานะ ป้องกันการรันคำสั่งซ้ำ
+  // Locks the state to prevent duplicate executions.
+  bool _isNavigating = false;
 
   @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollUpdateNotification>(
       onNotification: (notification) {
-        // ถ้าเลื่อนเกิน 60 pixel และ *ยังไม่ได้กำลังเปลี่ยนหน้า*
+        // If scrolled past 60 pixels beyond the maximum extent and not currently navigating.
         if (!_isNavigating &&
             notification.metrics.pixels >
                 notification.metrics.maxScrollExtent + 60) {
-          _isNavigating = true; // ล็อคทันทีไม่ให้ทำซ้ำ (แก้หน้าจอสั่น 100%)
+          // Lock immediately to prevent duplicate triggers (prevents screen jittering 100%).
+          _isNavigating = true; 
           widget.onNavigate();
           return true;
         }
 
-        // คืนค่าสถานะเมื่อผู้ใช้ปล่อยมือแล้วเด้งกลับมา (เผื่อกดย้อนกลับมาหน้านี้อีก)
+        // Reset the state when the user releases and the scroll view bounces back.
+        // This ensures the trigger works again if the user returns to this screen.
         if (_isNavigating &&
             notification.metrics.pixels <=
                 notification.metrics.maxScrollExtent) {
@@ -45,10 +71,12 @@ class _ScrollNavigatorWrapperState extends State<ScrollNavigatorWrapper> {
   }
 }
 
-// --- 2. ตัว UI ข้อความ + ลูกศร ด้านล่างสุด ---
+/// A visual indicator displaying text and a downward arrow at the bottom of the screen.
 class ScrollDownIndicator extends StatelessWidget {
+  /// The text displayed above the arrow icon.
   final String text;
 
+  /// Creates a [ScrollDownIndicator] with the specified text.
   const ScrollDownIndicator({super.key, required this.text});
 
   @override
