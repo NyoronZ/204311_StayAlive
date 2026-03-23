@@ -11,7 +11,7 @@
  * - Created as part of the Home screen widget tree
  * - Disposed when the parent screen is popped
  *
- * Author: Rattanun Deewongsai / Stayalive
+ * Author: Rattanun Deewongsai
  * Course: Mobile Application Development Framework
  */
 

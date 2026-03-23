@@ -11,7 +11,7 @@
  * - Applies light and dark themes
  * - Handles global text scaling and UI configuration
  *
- * Author: Rattanun Deewongsai, Kitichai Fanprom / Stayalive
+ * Author: Nohimitsu
  * Course: Mobile Application Development Framework
  */
 

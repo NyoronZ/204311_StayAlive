@@ -10,7 +10,7 @@
  * - Embedded inside TutorialScreen's PageView at index 5
  * - Disposed when the tutorial flow is completed or skipped
  *
- * Author: Rattanun Deewongsai / Stayalive
+ * Author: Rattanun Deewongsai
  * Course: Mobile Application Development Framework
  */
 

@@ -1,3 +1,23 @@
+/*
+ * File: quick_guide_screen.dart
+ * Description: Step-by-step emergency quick guide screen.
+ *              Displays assessment cards, a symptom checker, an age
+ *              selection card, and age-specific CPR instruction cards.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - CustomAppBar
+ * - SymptomCheckCard
+ * - ScrollNavigatorWrapper / ScrollDownIndicator
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Home screen
+ * - Disposed when the user navigates back to Home
+ *
+ * Author: Nohimitsu
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
@@ -6,7 +26,17 @@ import '../../components/symptom_check_card.dart';
 
 import '../../components/scroll_navigator.dart';
 
+/// Scrollable quick-guide screen for emergency CPR response.
+///
+/// Fields:
+/// - (stateless) — all state is held in [_QuickGuideScreenState]
+///
+/// Usage:
+/// - Pushed from the Home screen via the Quick Guide button
+/// - Renders numbered assessment cards, a symptom checker, an age
+///   selection card, and conditionally shows adult or child CPR cards
 class QuickGuideScreen extends StatefulWidget {
+  /// Creates a [QuickGuideScreen].
   const QuickGuideScreen({super.key});
 
   @override
@@ -16,6 +46,11 @@ class QuickGuideScreen extends StatefulWidget {
 class _QuickGuideScreenState extends State<QuickGuideScreen> {
   String? _selectedAgeGroup;
 
+  /// Builds the quick guide list with assessment cards, symptom checker,
+  /// age selection, and age-specific CPR cards from [LanguageProvider].
+  ///
+  /// Side effects:
+  /// - Rebuilds when [_selectedAgeGroup] changes via the age selection card
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);
@@ -225,13 +260,38 @@ class _QuickGuideScreenState extends State<QuickGuideScreen> {
   }
 }
 
+/// A single step card displayed in the quick guide list.
+///
+/// Fields:
+/// - number: step number label shown in the header badge
+/// - title: step title shown in the green header bar
+/// - description: body text explaining the step
+/// - keyPoints: optional list of bullet-point tips shown in a highlight box
+/// - imagePath: optional asset image shown above the description
+///
+/// Usage:
+/// - Created in [_QuickGuideScreenState.build] for each guide step
+/// - Also used for age-specific CPR instruction steps
 class QuickGuideCard extends StatelessWidget {
+  /// The step number displayed in the card header badge.
   final String number;
+
+  /// The step title displayed in the green header bar.
   final String title;
+
+  /// The body description text for this step.
   final String description;
+
+  /// Optional bullet-point key tips shown in a highlight box.
   final List<String>? keyPoints;
+
+  /// Optional image asset path displayed above the description.
   final String? imagePath;
 
+  /// Creates a [QuickGuideCard].
+  ///
+  /// [number], [title], and [description] are required.
+  /// [keyPoints] and [imagePath] are optional.
   const QuickGuideCard({
     super.key,
     required this.number,
@@ -241,6 +301,8 @@ class QuickGuideCard extends StatelessWidget {
     this.imagePath,
   });
 
+  /// Builds the guide card with a numbered green header, description text,
+  /// an optional image, and an optional key-points highlight box.
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);

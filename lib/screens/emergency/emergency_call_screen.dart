@@ -1,3 +1,23 @@
+/*
+ * File: emergency_call_screen.dart
+ * Description: Displays a list of Thai emergency phone numbers and a
+ *              one-tap emergency call button. Supports scroll-to-home
+ *              navigation via ScrollNavigatorWrapper.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - CustomAppBar
+ * - EmergencyCallButton
+ * - ScrollNavigatorWrapper / ScrollDownIndicator
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Home screen
+ * - Disposed when the user scrolls to navigate back or presses back
+ *
+ * Author: Nohimitsu
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
@@ -5,9 +25,20 @@ import '../../components/custom_app_bar.dart';
 import '../../components/emergency_call_button.dart';
 import '../../components/scroll_navigator.dart';
 
+/// Displays Thai medical and general emergency numbers with a call button.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Pushed from the Home screen via the Emergency Call button
+/// - Lists numbered services and provides a direct [EmergencyCallButton]
 class EmergencyCallScreen extends StatelessWidget {
+  /// Creates an [EmergencyCallScreen].
   const EmergencyCallScreen({super.key});
 
+  /// Builds the emergency call screen with a grouped number list,
+  /// an [EmergencyCallButton], and a scroll-down navigation indicator.
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

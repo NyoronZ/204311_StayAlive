@@ -1,10 +1,37 @@
+/*
+ * File: splash_screen.dart
+ * Description: Initial loading screen shown on app start.
+ *              Precaches images, checks Terms acceptance and tutorial
+ *              completion, then routes to the appropriate screen.
+ *
+ * Dependencies:
+ * - PrivacyProvider
+ * - SharedPreferences (to read hasSeenTutorial flag)
+ *
+ * Lifecycle:
+ * - Created as the app's initial route
+ * - Disposed immediately after routing to the next screen
+ *
+ * Author: Nohimitsu
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import '../../core/privacy_provider.dart';
 
+/// Splash/loading screen shown while the app initialises.
+///
+/// Fields:
+/// - (stateless) — all state is held in [_LoadingScreenState]
+///
+/// Usage:
+/// - Set as the initial route in the app
+/// - Precaches logo images and routes to Terms, Tutorial, or Home
 class LoadingScreen extends StatefulWidget {
+  /// Creates a [LoadingScreen].
   const LoadingScreen({super.key});
 
   @override
@@ -12,6 +39,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  /// Initialises the state and schedules [_loadComponents] after
+  /// the first frame to ensure the widget tree is fully mounted.
   @override
   void initState() {
     super.initState();
@@ -47,6 +76,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
   }
 
+  /// Builds the splash screen with the app logo and a loading spinner.
+  ///
+  /// Adapts the background colour to the current theme (dark/light).
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;

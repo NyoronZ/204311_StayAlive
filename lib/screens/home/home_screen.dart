@@ -1,10 +1,39 @@
+/*
+ * File: home_screen.dart
+ * Description: The main hub screen of the StayAlive app.
+ *              Provides quick access to CPR start, emergency tools,
+ *              and educational features via a menu-button grid.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ *
+ * Lifecycle:
+ * - Pushed as the root screen after the tutorial/splash flow
+ * - Remains in the stack until the app is closed
+ *
+ * Author: Nohimitsu
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 
+/// The main home screen and navigation hub of the StayAlive app.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Root screen shown after the splash/tutorial flow completes
+/// - Provides the main Start CPR button, Emergency section,
+///   and Others section with quick-access menu buttons
 class HomeScreen extends StatelessWidget {
+  /// Creates a [HomeScreen].
   const HomeScreen({super.key});
 
+  /// Builds the home screen with the app logo, Start CPR button,
+  /// Emergency menu, and Others menu laid out in a scrollable column.
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

@@ -8,7 +8,7 @@
  * - Provides back navigation using Navigator.pop
  * - Maintains consistent UI design across screens
  *
- * Author: Rattanun Deewongsai / Stayalive
+ * Author: Rattanun Deewongsai
  * Course: Mobile Application Development Framework
  */
 

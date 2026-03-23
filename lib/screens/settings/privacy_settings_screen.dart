@@ -1,3 +1,21 @@
+/*
+ * File: privacy_settings_screen.dart
+ * Description: Settings screen for managing location permission
+ *              and Terms and Conditions acceptance state.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - PrivacyProvider
+ * - CustomAppBar
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Settings screen
+ * - Disposed when the user navigates back
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
@@ -5,9 +23,25 @@ import '../../core/language_provider.dart';
 import '../../core/privacy_provider.dart';
 import '../../components/custom_app_bar.dart';
 
+/// Screen for managing privacy-related permissions and consent.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Pushed from the Settings screen
+/// - Allows the user to toggle location permission and T\&C acceptance
+/// - Shows a warning dialog before revoking terms consent
 class PrivacySettingsScreen extends StatelessWidget {
+  /// Creates a [PrivacySettingsScreen].
   const PrivacySettingsScreen({super.key});
 
+  /// Builds the privacy settings screen with location and T\&C toggles.
+  ///
+  /// Side effects:
+  /// - Toggling location calls [PrivacyProvider.toggleLocation] and may
+  ///   show a SnackBar if the permission request fails
+  /// - Revoking T\&C calls [_showTermsWarning] which exits the app on confirm
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
