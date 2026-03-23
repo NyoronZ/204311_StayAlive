@@ -1,9 +1,35 @@
+/*
+ * File: quick_test_screen.dart
+ * Description: Interactive multiple-choice quiz screen that tests
+ *              the user's CPR and first-aid knowledge.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - CustomAppBar
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Home screen
+ * - Disposed when the user navigates back or the result screen is exited
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../components/custom_app_bar.dart';
 
+/// Interactive multiple-choice quiz to test CPR and first-aid knowledge.
+///
+/// Fields:
+/// - (stateless) — all state is held in [_QuickTestScreenState]
+///
+/// Usage:
+/// - Pushed from the Home screen
+/// - Tracks answers per question and shows a result screen at the end
 class QuickTestScreen extends StatefulWidget {
+  /// Creates a [QuickTestScreen].
   const QuickTestScreen({super.key});
 
   @override
@@ -51,6 +77,15 @@ class _QuickTestScreenState extends State<QuickTestScreen> {
     });
   }
 
+  /// Builds the quiz screen for the current question.
+  ///
+  /// Loads questions from [LanguageProvider] and renders the question card,
+  /// answer options, and navigation buttons. Switches to the result screen
+  /// when [_showResult] is true.
+  ///
+  /// Side effects:
+  /// - Rebuilds on every [setState] triggered by answer selection or
+  ///   navigation button taps
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

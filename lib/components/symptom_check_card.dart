@@ -1,9 +1,38 @@
+/*
+ * File: symptom_check_card.dart
+ * Description: Stateful card widget that lets the user flag observed
+ *              symptoms and determines whether CPR is required based on
+ *              a set of combination rules. Shows a CPR-required card and
+ *              an interactive CPR launch card when conditions are met.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - EmergencyCallButton
+ *
+ * Lifecycle:
+ * - Created as part of the Quick Guide screen widget tree
+ * - Disposed when the parent screen is popped
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import 'emergency_call_button.dart';
 
+/// Interactive symptom-check card that evaluates CPR necessity.
+///
+/// Fields:
+/// - (stateless) — all state is held in [_SymptomCheckCardState]
+///
+/// Usage:
+/// - Embedded in the Quick Guide screen between the assessment cards
+///   and the age-selection card
+/// - Conditionally shows a CPR-required card and a Start CPR card
 class SymptomCheckCard extends StatefulWidget {
+  /// Creates a [SymptomCheckCard].
   const SymptomCheckCard({super.key});
 
   @override
@@ -25,6 +54,13 @@ class _SymptomCheckCardState extends State<SymptomCheckCard> {
     'not_breathing': false,
   };
 
+  /// Builds the symptom selection grid card.
+  ///
+  /// Evaluates all combination rules to compute [needsCpr], then
+  /// conditionally renders the CPR-required card and Start CPR card.
+  ///
+  /// Side effects:
+  /// - Rebuilds on every [setState] triggered by symptom toggles
   @override
   Widget build(BuildContext context) {
     final languageProvider = Provider.of<LanguageProvider>(context);

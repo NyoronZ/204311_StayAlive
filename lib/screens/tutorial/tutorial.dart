@@ -13,7 +13,7 @@
  * - Created on first launch before the Home screen
  * - Disposed after the user completes or skips the tutorial
  *
- * Author: Rattanun Deewongsai / Stayalive
+ * Author: Rattanun Deewongsai
  * Course: Mobile Application Development Framework
  */
 

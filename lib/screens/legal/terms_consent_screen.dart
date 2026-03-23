@@ -1,3 +1,22 @@
+/*
+ * File: terms_consent_screen.dart
+ * Description: First-launch consent screen that requires the user
+ *              to accept Terms and Conditions before entering the app.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - PrivacyProvider
+ * - SharedPreferences (to check tutorial completion state)
+ *
+ * Lifecycle:
+ * - Shown on first launch before the tutorial or home screen
+ * - Disposed after the user accepts (navigates to tutorial or home)
+ *   or exits the app via the quit button
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +24,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/privacy_provider.dart';
 import '../../core/language_provider.dart';
 
+/// First-launch consent screen requiring the user to accept T\&C.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Shown as the initial route when terms have not yet been accepted
+/// - Navigates to the tutorial or home screen on acceptance
+/// - Exits the app if the user taps the close button
 class TermsAndConditionsConsentScreen extends StatelessWidget {
+  /// Creates a [TermsAndConditionsConsentScreen].
   const TermsAndConditionsConsentScreen({super.key});
 
   Future<void> _acceptTerms(BuildContext context) async {
@@ -27,6 +56,13 @@ class TermsAndConditionsConsentScreen extends StatelessWidget {
     SystemNavigator.pop();
   }
 
+  /// Builds the consent screen with a close button, scrollable T\&C
+  /// content, and an "I agree" button.
+  ///
+  /// Side effects:
+  /// - Calls [_acceptTerms] which writes to SharedPreferences and
+  ///   navigates to the next screen
+  /// - Calls [_quitApp] which exits the app via [SystemNavigator.pop]
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

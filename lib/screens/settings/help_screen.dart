@@ -1,11 +1,39 @@
+/*
+ * File: help_screen.dart
+ * Description: Displays a localised help guide as a scrollable list
+ *              of section cards sourced from LanguageProvider.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - CustomAppBar
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Settings screen
+ * - Disposed when the user navigates back
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../components/custom_app_bar.dart';
 
+/// Displays a localised help guide for the StayAlive app.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Pushed from the Settings screen
+/// - Renders each help topic as a card with a title and body text
 class HelpScreen extends StatelessWidget {
+  /// Creates a [HelpScreen].
   const HelpScreen({super.key});
 
+  /// Builds the help screen as a [ListView] of section cards
+  /// sourced from [LanguageProvider].
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

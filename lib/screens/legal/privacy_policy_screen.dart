@@ -1,11 +1,39 @@
+/*
+ * File: privacy_policy_screen.dart
+ * Description: Displays the app's Privacy Policy as a
+ *              scrollable list of localised sections.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - CustomAppBar
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Settings screen
+ * - Disposed when the user navigates back
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../components/custom_app_bar.dart';
 
+/// Displays the Privacy Policy content sourced from [LanguageProvider].
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Navigated to from the Settings screen
+/// - Renders a last-updated timestamp and a list of policy sections
 class PrivacyPolicyScreen extends StatelessWidget {
+  /// Creates a [PrivacyPolicyScreen].
   const PrivacyPolicyScreen({super.key});
 
+  /// Builds the privacy policy screen with a timestamp and
+  /// a scrollable list of sections from [LanguageProvider].
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

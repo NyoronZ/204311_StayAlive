@@ -1,11 +1,39 @@
+/*
+ * File: terms_screen.dart
+ * Description: Read-only screen displaying the Terms and Conditions
+ *              as a scrollable list of localised sections.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - CustomAppBar
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Settings screen
+ * - Disposed when the user navigates back
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../components/custom_app_bar.dart';
 
+/// Read-only screen that displays the Terms and Conditions.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Navigated to from the Settings screen for reference only
+/// - Renders a last-updated timestamp and a list of T\&C sections
 class TermsScreen extends StatelessWidget {
+  /// Creates a [TermsScreen].
   const TermsScreen({super.key});
 
+  /// Builds the terms screen with a last-updated timestamp and
+  /// a scrollable list of T\&C sections from [LanguageProvider].
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

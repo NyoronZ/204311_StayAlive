@@ -1,3 +1,23 @@
+/*
+ * File: settings_screen.dart
+ * Description: Main settings screen allowing the user to configure
+ *              notifications, language, display options, and access
+ *              legal/support pages.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - NotificationProvider
+ * - ThemeProvider
+ * - CustomAppBar
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Home screen
+ * - Disposed when the user navigates back
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
@@ -5,9 +25,21 @@ import '../../core/notification_provider.dart';
 import '../../core/theme_provider.dart';
 import '../../components/custom_app_bar.dart';
 
+/// Main settings screen for configuring app preferences.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Pushed from the Home screen
+/// - Provides controls for notifications, language, dark mode,
+///   font size, and links to legal/support screens
 class SettingsScreen extends StatelessWidget {
+  /// Creates a [SettingsScreen].
   const SettingsScreen({super.key});
 
+  /// Builds the settings screen with grouped sections for user
+  /// preferences, display options, support links, and footer links.
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

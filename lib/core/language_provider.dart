@@ -1,7 +1,32 @@
+/*
+ * File: language_provider.dart
+ * Description: ChangeNotifier that manages the app's active locale
+ *              and holds all localised string/data content for EN and TH.
+ *
+ * Dependencies:
+ * - SharedPreferences (to persist the selected language)
+ *
+ * Lifecycle:
+ * - Instantiated once in main.dart via MultiProvider
+ * - Lives for the entire app session
+ *
+ * Author: Nohimitsu
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
 
+/// Manages the active locale and provides all localised content.
+///
+/// Fields:
+/// - _currentLocale: the currently active [Locale]
+/// - _content: static map of all EN/TH string and data content
+///
+/// Usage:
+/// - Provided globally via [MultiProvider] in main.dart
+/// - Consumed by screens via [Provider.of] or [Consumer]
 class LanguageProvider extends ChangeNotifier {
   Locale _currentLocale = const Locale('en');
   Locale get currentLocale => _currentLocale;

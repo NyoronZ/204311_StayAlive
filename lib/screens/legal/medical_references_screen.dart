@@ -1,11 +1,39 @@
+/*
+ * File: medical_references_screen.dart
+ * Description: Displays medical references and reviewer information
+ *              sourced from LanguageProvider's localised data.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - CustomAppBar
+ *
+ * Lifecycle:
+ * - Pushed via Navigator from the Settings screen
+ * - Disposed when the user navigates back
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/language_provider.dart';
 import '../../components/custom_app_bar.dart';
 
+/// Displays medical references and a reviewer card for the StayAlive app.
+///
+/// Fields:
+/// - (stateless) — no mutable state
+///
+/// Usage:
+/// - Navigated to from the Settings screen
+/// - Shows a reviewer bio and a list of reference sources
 class MedicalReferencesScreen extends StatelessWidget {
+  /// Creates a [MedicalReferencesScreen].
   const MedicalReferencesScreen({super.key});
 
+  /// Builds the medical references screen with a reviewer card and
+  /// a scrollable list of reference entries from [LanguageProvider].
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);

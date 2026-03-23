@@ -1,13 +1,48 @@
+/*
+ * File: emergency_call_button.dart
+ * Description: Reusable button widget that triggers a local notification
+ *              reminder and then launches the phone dialer for emergency calls.
+ *
+ * Dependencies:
+ * - LanguageProvider
+ * - NotificationService
+ * - url_launcher
+ *
+ * Lifecycle:
+ * - Created as part of any screen that needs an emergency call action
+ * - Disposed when the parent screen is removed from the tree
+ *
+ * Author: Rattanun Deewongsai
+ * Course: Mobile Application Development Framework
+ */
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/language_provider.dart';
 import '../core/notification_service.dart';
 
+/// A styled button that shows a reminder notification then dials an
+/// emergency phone number.
+///
+/// Fields:
+/// - phoneNumber: the number to dial when the button is tapped
+/// - label: optional override for the button label text;
+///   defaults to the [LanguageProvider] 'call_now' string
+///
+/// Usage:
+/// - Placed in the CPR-required card inside [SymptomCheckCard]
+/// - Can be reused on any screen that needs a one-tap emergency call
 class EmergencyCallButton extends StatelessWidget {
+  /// The phone number to dial when the button is tapped.
   final String phoneNumber;
+
+  /// Optional label text; falls back to the localised 'call_now' string.
   final String? label;
 
+  /// Creates an [EmergencyCallButton].
+  ///
+  /// [phoneNumber] is required. [label] is optional.
   const EmergencyCallButton({
     super.key,
     required this.phoneNumber,
@@ -25,6 +60,11 @@ class EmergencyCallButton extends StatelessWidget {
     }
   }
 
+  /// Builds the emergency call button with a phone icon and label.
+  ///
+  /// Side effects:
+  /// - On tap: shows a [NotificationService] reminder notification,
+  ///   then calls [_makePhoneCall] to open the system phone dialer
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<LanguageProvider>(context);
