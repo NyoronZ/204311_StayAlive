@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/language_provider.dart';
 import 'core/notification_provider.dart';
@@ -48,31 +49,35 @@ void main() async {
   // FOR DEBUGGING UI LAYOUT ONLY
   debugPaintSizeEnabled = false;
 
-  /// Ensures Flutter binding is initialized before async operations.
+  // Ensures Flutter binding is initialized before async operations.
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Initialize notification service and request permissions.
+  // Pull the theme settings.
+  final prefs = await SharedPreferences.getInstance();
+  final bool isDarkMode = prefs.getBool('isDarkMode') ?? false;
+
+  // Initialize notification service and request permissions.
   final notifService = NotificationService();
   await notifService.init();
   await notifService.requestPermissions();
 
-  /// Run the app with multiple providers.
+  // Run the app with multiple providers.
   runApp(
     MultiProvider(
       providers: [
-        /// Manages language and localization
+        // Manages language and localization
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
 
-        /// Manages notification settings
+        // Manages notification settings
         ChangeNotifierProvider(create: (context) => NotificationProvider()),
 
-        /// Manages theme (light/dark mode)
+        // Manages theme (light/dark mode)
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
 
-        /// Manages privacy settings
+        // Manages privacy settings
         ChangeNotifierProvider(create: (context) => PrivacyProvider()),
       ],
-      child: const StayAliveApp(),
+      child: StayAliveApp(isDarkMode: isDarkMode),
     ),
   );
 }
@@ -81,10 +86,12 @@ void main() async {
 ///
 /// Configures themes, routes, and global UI behavior.
 class StayAliveApp extends StatelessWidget {
-  /// Creates the main application widget.
-  const StayAliveApp({super.key});
+  /// Whether the app should start in dark mode.
+  final bool isDarkMode;
 
-  /// Builds the MaterialApp with theme and routing configuration.
+  /// Creates the main application widget.
+  const StayAliveApp({super.key, required this.isDarkMode});
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -93,10 +100,10 @@ class StayAliveApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      /// Application title
+      // Application title
       title: 'Stay Alive',
 
-      /// Light theme configuration
+      // Light theme configuration
       theme: ThemeData(
         useMaterial3: true,
         primarySwatch: Colors.green,
@@ -105,7 +112,7 @@ class StayAliveApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
 
-      /// Dark theme configuration
+      // Dark theme configuration
       darkTheme: ThemeData(
         useMaterial3: true,
         primarySwatch: Colors.green,
@@ -120,10 +127,10 @@ class StayAliveApp extends StatelessWidget {
         ),
       ),
 
-      /// Controls current theme mode
+      // Controls current theme mode
       themeMode: themeProvider.themeMode,
 
-      /// Applies global text scaling
+      // Applies global text scaling
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
@@ -133,12 +140,12 @@ class StayAliveApp extends StatelessWidget {
         );
       },
 
-      /// Initial route
+      // Initial route
       initialRoute: '/',
 
-      /// Application routes
+      // Application routes
       routes: {
-        '/': (context) => const LoadingScreen(),
+        '/': (context) => LoadingScreen(initialIsDark: isDarkMode),
         '/tutorial': (context) => const TutorialScreen(),
         '/home': (context) => const HomeScreen(),
         '/settings': (context) => const SettingsScreen(),
@@ -150,8 +157,7 @@ class StayAliveApp extends StatelessWidget {
         '/terms': (context) => const TermsScreen(),
         '/privacy': (context) => const PrivacyPolicyScreen(),
         '/medical-refs': (context) => const MedicalReferencesScreen(),
-        '/terms-consent': (context) =>
-            const TermsAndConditionsConsentScreen(),
+        '/terms-consent': (context) => const TermsAndConditionsConsentScreen(),
         '/privacy-settings': (context) => const PrivacySettingsScreen(),
         '/help': (context) => const HelpScreen(),
       },
