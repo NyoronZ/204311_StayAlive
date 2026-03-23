@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the fetchNearbyHospitals method from the HospitalService class, for the Dart programming language.">
+  <title>fetchNearbyHospitals method - HospitalService class - hospital_service library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">stayalive</a></li>
+    <li><a href="../../core_hospital_service/">core&#47;hospital_service.dart</a></li>
+    <li><a href="../../core_hospital_service/HospitalService-class.html">HospitalService</a></li>
+    <li class="self-crumb">fetchNearbyHospitals static method</li>
+  </ol>
+  <div class="self-name">fetchNearbyHospitals</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="core_hospital_service&#47;HospitalService-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">fetchNearbyHospitals</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">fetchNearbyHospitals</span>(<wbr><ol class="parameter-list single-line"> <li><span class="parameter" id="fetchNearbyHospitals-param-position"><span class="type-annotation"><a href="https://pub.dev/documentation/geolocator_platform_interface/4.2.6/geolocator_platform_interface/Position-class.html">Position</a></span> <span class="parameter-name">position</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Fetches nearby hospitals within a 10km radius from the given <code>position</code>.</p>
+<p>Uses cached data if the device has moved less than 100 meters since the last fetch.
+Throws an <a href="https://api.flutter.dev/flutter/dart-core/Exception-class.html">Exception</a> if the network request fails or the server returns an error.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static Future&lt;List&lt;Map&lt;String, dynamic&gt;&gt;&gt; fetchNearbyHospitals(
+    Position position) async {
+  &#47;&#47; Return cached data if the user has moved less than 100 meters.
+  if (_cachedHospitals != null &amp;&amp; _lastFetchPosition != null) {
+    final distanceDiff = Geolocator.distanceBetween(
+        position.latitude,
+        position.longitude,
+        _lastFetchPosition!.latitude,
+        _lastFetchPosition!.longitude);
+
+    if (distanceDiff &lt; 100) {
+      return _cachedHospitals!;
+    }
+  }
+
+  final lat = position.latitude;
+  final lon = position.longitude;
+  const radius = 10000; &#47;&#47; 10 kilometers
+
+  final query = &#39;&#39;&#39;
+    [out:json][timeout:25];
+    (
+      node[&quot;amenity&quot;=&quot;hospital&quot;](around:$radius,$lat,$lon);
+      way[&quot;amenity&quot;=&quot;hospital&quot;](around:$radius,$lat,$lon);
+    );
+    out center;
+  &#39;&#39;&#39;;
+
+  final url = Uri.parse(
+      &#39;https:&#47;&#47;overpass-api.de&#47;api&#47;interpreter?data=${Uri.encodeComponent(query)}&#39;);
+
+  final response = await http.get(url).timeout(const Duration(seconds: 15));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(utf8.decode(response.bodyBytes));
+    final elements = data[&#39;elements&#39;] as List;
+    List&lt;Map&lt;String, dynamic&gt;&gt; fetchedHospitals = [];
+
+    for (var el in elements) {
+      final tags = el[&#39;tags&#39;] ?? {};
+      final nameTh = tags[&#39;name:th&#39;] ?? tags[&#39;name&#39;] ?? &#39;&#39;;
+      final nameEn = tags[&#39;name:en&#39;] ?? tags[&#39;name&#39;] ?? &#39;&#39;;
+
+      if (nameTh.isEmpty &amp;&amp; nameEn.isEmpty) continue;
+
+      final nameLower = (nameTh + nameEn).toLowerCase();
+
+      &#47;&#47; Filter out irrelevant clinics, dental offices, and animal hospitals.
+      if (nameLower.contains(&#39;คลินิก&#39;) ||
+          nameLower.contains(&#39;clinic&#39;) ||
+          nameLower.contains(&#39;ทันตกรรม&#39;) ||
+          nameLower.contains(&#39;dental&#39;) ||
+          nameLower.contains(&#39;สัตว์&#39;) ||
+          nameLower.contains(&#39;animal&#39;) ||
+          nameLower.contains(&#39;ความงาม&#39;) ||
+          nameLower.contains(&#39;ศัลยกรรม&#39;)) {
+        continue;
+      }
+
+      final hLat = el[&#39;lat&#39;] ?? el[&#39;center&#39;][&#39;lat&#39;];
+      final hLon = el[&#39;lon&#39;] ?? el[&#39;center&#39;][&#39;lon&#39;];
+      final distanceKm =
+          Geolocator.distanceBetween(lat, lon, hLat, hLon) &#47; 1000;
+
+      fetchedHospitals.add({
+        &#39;name&#39;: nameTh.isNotEmpty ? nameTh : nameEn,
+        &#39;name_en&#39;: nameEn,
+        &#39;lat&#39;: hLat,
+        &#39;lon&#39;: hLon,
+        &#39;distance&#39;: distanceKm,
+      });
+    }
+
+    &#47;&#47; Sort hospitals by proximity.
+    fetchedHospitals.sort((a, b) =&gt; a[&#39;distance&#39;].compareTo(b[&#39;distance&#39;]));
+
+    _cachedHospitals = fetchedHospitals;
+    _lastFetchPosition = position;
+
+    return fetchedHospitals;
+  } else {
+    throw Exception(&#39;server_error&#39;);
+  }
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">stayalive</a></li>
+    <li><a href="../../core_hospital_service/">hospital_service</a></li>
+    <li><a href="../../core_hospital_service/HospitalService-class.html">HospitalService</a></li>
+    <li class="self-crumb">fetchNearbyHospitals static method</li>
+</ol>
+
+    <h5>HospitalService class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    stayalive
+      1.0.0+1
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+
