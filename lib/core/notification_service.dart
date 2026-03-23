@@ -104,7 +104,7 @@ class NotificationService {
 
   /// Displays a local notification if notifications are enabled.
   ///
-  /// Reads [notificationsEnabled] from SharedPreferences before showing.
+  /// Reads `notificationsEnabled` from SharedPreferences before showing.
   /// Does nothing if notifications are disabled by the user.
   ///
   /// Side effects:

@@ -29,7 +29,7 @@ import 'how_to_cpr.dart';
 /// - (stateless) — all state is held in [_TutorialScreenState]
 ///
 /// Usage:
-/// - Pushed as the initial route when [hasSeenTutorial] is false
+/// - Pushed as the initial route when `hasSeenTutorial` is false
 /// - Navigates to Home and clears the stack on completion or skip
 class TutorialScreen extends StatefulWidget {
   /// Creates a [TutorialScreen].

@@ -27,7 +27,7 @@ import 'package:geolocator/geolocator.dart';
 ///
 /// Usage:
 /// - Provided globally via [MultiProvider] in main.dart
-/// - Read by [SplashScreen], [TermsConsentScreen], and [PrivacySettingsScreen]
+/// - Read by `SplashScreen`, `TermsConsentScreen`, and `PrivacySettingsScreen`
 class PrivacyProvider extends ChangeNotifier {
   bool _hasAcceptedTerms = false;
   bool _locationEnabled = false;

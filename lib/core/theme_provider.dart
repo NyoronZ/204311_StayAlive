@@ -63,7 +63,7 @@ class ThemeProvider extends ChangeNotifier {
 
   /// Sets the font size scaling factor and persists the change.
   ///
-  /// The [factor] is clamped to the range [0.8, 1.0].
+  /// The [factor] is clamped to the range `[0.8, 1.0]`.
   ///
   /// Side effects:
   /// - Updates [_fontSizeFactor]
