@@ -33,7 +33,7 @@ class _CprPrepGuideScreenState extends State<CprPrepGuideScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.callEmergency) _makePhoneCall('0000');
+    if (widget.callEmergency) _makePhoneCall('1669');
   }
 
   Map<String, dynamic> _getAgeData(LanguageProvider lang, String age) {

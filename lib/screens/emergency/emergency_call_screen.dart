@@ -124,7 +124,7 @@ class EmergencyCallScreen extends StatelessWidget {
                               lang.translate('emergency_call', 'other_1193')),
                           const SizedBox(height: 24),
                           const Center(
-                              child: EmergencyCallButton(phoneNumber: '0000')),
+                              child: EmergencyCallButton(phoneNumber: '1669')),
                         ],
                       ),
                     ),
